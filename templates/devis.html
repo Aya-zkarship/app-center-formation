@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UpSkill · Demande de devis formation</title>
+    <!-- Google Fonts (Inter + fallback) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free) pour icônes modernes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f6f9fc 0%, #edf2f9 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #1a2639;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* container principal */
+        .page-wrapper {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        /* carte principale (effet card) */
+        .form-card {
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 20px 40px -12px rgba(0, 40, 80, 0.25), 0 8px 24px -6px rgba(0, 32, 64, 0.1);
+            padding: 2.5rem 2.8rem;
+            transition: box-shadow 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(2px);
+        }
+
+        /* ===== HEADER ===== */
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .logo-icon {
+            background: #0b2b4f;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 14px -6px rgba(11, 43, 79, 0.3);
+        }
+        .logo-text {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(130deg, #0b2b4f 30%, #2d5a8c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .logo-text span {
+            color: #c9a13b; /* touche dorée */
+            font-weight: 600;
+            background: none;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+        }
+
+        .title-section h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #0b2b4f;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            border-left: 6px solid #c9a13b;
+            padding-left: 1.3rem;
+        }
+        .title-section .subhead {
+            font-size: 1.1rem;
+            color: #415a77;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            background: #f0f5fa;
+            padding: 1rem 1.8rem;
+            border-radius: 60px;
+            display: inline-block;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02), 0 2px 4px rgba(0,35,70,0.05);
+        }
+
+        /* ===== FORMULAIRE ===== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.8rem 2rem;
+            margin-top: 1rem;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .field-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1e3a5f;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        label i {
+            color: #c9a13b;
+            font-size: 1rem;
+            width: 1.4rem;
+        }
+
+        /* style inputs / selects / textarea */
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            color: #8a9bb5;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+            pointer-events: none;
+        }
+        /* pour les champs avec icône interne, on ajoute du padding */
+        .input-wrapper input,
+        .input-wrapper select,
+        .input-wrapper textarea {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 3rem;
+            border: 1.5px solid #e1e9f0;
+            border-radius: 18px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            background: #ffffff;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,20,40,0.02);
+            color: #0b2b4f;
+            font-weight: 500;
+        }
+        /* select a une icône aussi, mais le padding est pareil */
+        .input-wrapper select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%238a9bb5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 1.2rem center;
+            background-size: 1.2rem;
+        }
+        /* textarea spécifique */
+        .input-wrapper textarea {
+            padding: 0.9rem 1rem 0.9rem 3rem;
+            min-height: 130px;
+            resize: vertical;
+        }
+        /* focus animation */
+        .input-wrapper input:focus,
+        .input-wrapper select:focus,
+        .input-wrapper textarea:focus {
+            outline: none;
+            border-color: #0b2b4f;
+            box-shadow: 0 4px 12px rgba(11, 43, 79, 0.15), 0 0 0 3px rgba(201, 161, 59, 0.2);
+        }
+        .input-wrapper input:focus + i,
+        .input-wrapper select:focus + i,
+        .input-wrapper textarea:focus + i {
+            color: #0b2b4f;
+        }
+
+        /* validation error style */
+        .input-wrapper.error input,
+        .input-wrapper.error select,
+        .input-wrapper.error textarea {
+            border-color: #d14c4c;
+            background-color: #fff8f8;
+        }
+        .error-message {
+            color: #d14c4c;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            font-weight: 500;
+            padding-left: 0.5rem;
+        }
+
+        /* bouton */
+        .button-container {
+            margin-top: 2.5rem;
+            text-align: center;
+        }
+        .btn-premium {
+            background: #0b2b4f;
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            box-shadow: 0 12px 24px -10px #0b2b4f, 0 4px 12px rgba(201, 161, 59, 0.3);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn-premium i {
+            color: #c9a13b;
+            font-size: 1.5rem;
+            transition: transform 0.2s;
+        }
+        .btn-premium:hover {
+            background: #133f64;
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 22px 32px -12px #0b2b4f, 0 6px 16px #c9a13b66;
+        }
+        .btn-premium:hover i {
+            transform: translateX(4px);
+            color: #f5c542;
+        }
+
+        /* message confirmation (caché au début) */
+        .confirmation-banner {
+            background: #eaf7ea;
+            border-left: 6px solid #3f9e4a;
+            border-radius: 20px;
+            padding: 1.2rem 2rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            color: #1f5e2b;
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 6px 14px rgba(63,158,74,0.2);
+        }
+        .confirmation-banner i {
+            font-size: 2rem;
+            color: #3f9e4a;
+        }
+        .confirmation-banner.show {
+            display: flex;
+        }
+
+        /* FOOTER */
+        .footer {
+            margin-top: 3.5rem;
+            background: #0b1a2e;
+            border-radius: 40px 40px 24px 24px;
+            padding: 2rem 2.5rem;
+            color: #d4e0f0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+        .footer-logo i {
+            background: #c9a13b;
+            color: #0b1a2e;
+            border-radius: 12px;
+            padding: 0.4rem;
+            font-size: 1.4rem;
+        }
+        .footer-contact {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-size: 0.98rem;
+        }
+        .footer-contact div i {
+            color: #c9a13b;
+            width: 1.6rem;
+        }
+        .footer-copy {
+            width: 100%;
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #98aec6;
+            border-top: 1px solid #1f3a57;
+            padding-top: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            .form-card { padding: 1.8rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .field-group.full-width { grid-column: span 1; }
+            .footer { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+        }
+        @media (max-width: 500px) {
+            .title-section h1 { font-size: 1.9rem; }
+            .btn-premium { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Carte formulaire -->
+        <div class="form-card">
+            <!-- Header avec logo et titre -->
+            <div class="header-logo">
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+                <div class="logo-text">Up<span>Skill</span></div>
+            </div>
+            <div class="title-section">
+                <h1>Demande de devis formation</h1>
+                <div class="subhead">
+                    <i class="fas fa-clipboard-list" style="margin-right: 10px; color: #c9a13b;"></i>
+                    Remplissez ce formulaire pour recevoir une proposition personnalisée adaptée aux besoins de votre entreprise.
+                </div>
+            </div>
+
+            <!-- zone message confirmation -->
+            <div id="confirmationMessage" class="confirmation-banner">
+                <i class="fas fa-check-circle"></i>
+                <span>Votre demande a bien été envoyée. Notre équipe vous contactera rapidement.</span>
+            </div>
+
+            <!-- Formulaire -->
+            <form id="quoteForm" novalidate>
+                <div class="form-grid">
+                    <!-- Coordonnées demandeur -->
+                    <div class="field-group">
+                        <label><i class="fas fa-user"></i> Nom complet *</label>
+                        <div class="input-wrapper" id="group-nom">
+                            <i class="fas fa-user-circle"></i>
+                            <input type="text" id="nom" placeholder="Jean Dupont" required>
+                        </div>
+                        <div class="error-message" id="error-nom"></div>
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-envelope"></i> Adresse email *</label>
+                        <div class="input-wrapper" id="group-email">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" placeholder="rh@entreprise.fr" required>
+                        </div>
+                        <div class="error-message" id="error-email"></div>
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-phone-alt"></i> Téléphone *</label>
+                        <div class="input-wrapper" id="group-tel">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="tel" placeholder="01 23 45 67 89" required>
+                        </div>
+                        <div class="error-message" id="error-tel"></div>
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-building"></i> Entreprise / Organisation *</label>
+                        <div class="input-wrapper" id="group-entreprise">
+                            <i class="fas fa-building"></i>
+                            <input type="text" id="entreprise" placeholder="Groupe ABC" required>
+                        </div>
+                        <div class="error-message" id="error-entreprise"></div>
+                    </div>
+
+                    <!-- Projet formation -->
+                    <div class="field-group">
+                        <label><i class="fas fa-layer-group"></i> Domaine de formation *</label>
+                        <div class="input-wrapper" id="group-domaine">
+                            <i class="fas fa-tag"></i>
+                            <select id="domaine" required>
+                                <option value="" disabled selected>-- Sélectionnez un domaine --</option>
+                                <option value="Management">Management</option>
+                                <option value="Data">Data</option>
+                                <option value="IT & Technologie">IT & Technologie</option>
+                                <option value="Soft skills">Soft skills</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="error-message" id="error-domaine"></div>
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-graduation-cap"></i> Intitulé de la formation *</label>
+                        <div class="input-wrapper" id="group-intitule">
+                            <i class="fas fa-pencil"></i>
+                            <input type="text" id="intitule" placeholder="ex: Manager agile" required>
+                        </div>
+                        <div class="error-message" id="error-intitule"></div>
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-users"></i> Nombre de participants *</label>
+                        <div class="input-wrapper" id="group-participants">
+                            <i class="fas fa-user-friends"></i>
+                            <input type="number" id="participants" min="1" placeholder="10" required>
+                        </div>
+                        <div class="error-message" id="error-participants"></div>
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-city"></i> Ville de formation *</label>
+                        <div class="input-wrapper" id="group-ville">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="ville" placeholder="Lyon, Paris, ..." required>
+                        </div>
+                        <div class="error-message" id="error-ville"></div>
+                    </div>
+                    <div class="field-group full-width">
+                        <label><i class="fas fa-file-alt"></i> Détails de votre demande *</label>
+                        <div class="input-wrapper" id="group-details">
+                            <i class="fas fa-align-left"></i>
+                            <textarea id="details" placeholder="Objectifs, besoins spécifiques, contraintes, délais souhaités..." required></textarea>
+                        </div>
+                        <div class="error-message" id="error-details"></div>
+                    </div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" class="btn-premium">
+                        <i class="fas fa-file-invoice"></i> Envoyer ma demande de devis
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-logo">
+                <i class="fas fa-graduation-cap"></i> UpSkill
+            </div>
+            <div class="footer-contact">
+                <div><i class="fas fa-envelope"></i> contact@upskill-rh.fr</div>
+                <div><i class="fas fa-phone-alt"></i> +33 1 87 65 43 21</div>
+                <div><i class="fas fa-map-pin"></i> 12 rue du progrès, 75010 Paris</div>
+            </div>
+            <div class="footer-copy">
+                © 2025 UpSkill Formation. Tous droits réservés. Conçu pour les RH exigeants.
+            </div>
+        </footer>
+    </div>
+
+    <!-- Javascript validation + confirmation -->
+    <script>
+        (function() {
+            const form = document.getElementById('quoteForm');
+            const confirmationDiv = document.getElementById('confirmationMessage');
+
+            // champs
+            const fields = [
+                { id: 'nom', errorId: 'error-nom', groupId: 'group-nom', validate: val => val.trim() !== '' },
+                { id: 'email', errorId: 'error-email', groupId: 'group-email', validate: val => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) },
+                { id: 'tel', errorId: 'error-tel', groupId: 'group-tel', validate: val => /^[0-9\s\+\-\.]{10,}$/.test(val.trim()) }, // simple vérif téléphone
+                { id: 'entreprise', errorId: 'error-entreprise', groupId: 'group-entreprise', validate: val => val.trim() !== '' },
+                { id: 'domaine', errorId: 'error-domaine', groupId: 'group-domaine', validate: val => val !== '' && val !== null },
+                { id: 'intitule', errorId: 'error-intitule', groupId: 'group-intitule', validate: val => val.trim() !== '' },
+                { id: 'participants', errorId: 'error-participants', groupId: 'group-participants', validate: val => val && parseInt(val) > 0 },
+                { id: 'ville', errorId: 'error-ville', groupId: 'group-ville', validate: val => val.trim() !== '' },
+                { id: 'details', errorId: 'error-details', groupId: 'group-details', validate: val => val.trim() !== '' }
+            ];
+
+            // fonction pour effacer les erreurs
+            function clearError(inputId, errorId, groupId) {
+                const errorEl = document.getElementById(errorId);
+                const groupEl = document.getElementById(groupId);
+                if (errorEl) errorEl.innerHTML = '';
+                if (groupEl) groupEl.classList.remove('error');
+            }
+
+            // fonction pour afficher erreur
+            function showError(inputId, errorId, groupId, message) {
+                const errorEl = document.getElementById(errorId);
+                const groupEl = document.getElementById(groupId);
+                if (errorEl) errorEl.innerHTML = message;
+                if (groupEl) groupEl.classList.add('error');
+            }
+
+            // validation générale
+            function validateForm() {
+                let isValid = true;
+                // effacer tous les messages d'erreur d'abord
+                fields.forEach(f => {
+                    clearError(f.id, f.errorId, f.groupId);
+                });
+
+                fields.forEach(f => {
+                    const input = document.getElementById(f.id);
+                    if (!input) return;
+                    const value = input.value;
+                    let fieldValid = true;
+                    let errorMsg = '';
+
+                    if (!f.validate(value)) {
+                        fieldValid = false;
+                        if (f.id === 'email') errorMsg = 'Format email invalide.';
+                        else if (f.id === 'tel') errorMsg = 'Numéro de téléphone non valide (10 caractères min).';
+                        else if (f.id === 'domaine' && (!value || value === '')) errorMsg = 'Veuillez choisir un domaine.';
+                        else if (f.id === 'participants' && (value === '' || parseInt(value) <= 0)) errorMsg = 'Nombre de participants requis (min 1).';
+                        else errorMsg = 'Ce champ est obligatoire.';
+                    }
+
+                    if (!fieldValid) {
+                        isValid = false;
+                        showError(f.id, f.errorId, f.groupId, errorMsg);
+                    }
+                });
+                return isValid;
+            }
+
+            // gestion soumission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const isValid = validateForm();
+
+                if (isValid) {
+                    // simuler envoi & afficher message confirmation
+                    confirmationDiv.classList.add('show');
+                    // scroll en douceur vers le message
+                    confirmationDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                    // (optionnel) on pourrait réinitialiser le formulaire, mais on garde pour démo
+                    // form.reset(); // décommentez si nécessaire
+                } else {
+                    // cacher message si affiché
+                    confirmationDiv.classList.remove('show');
+                }
+            });
+
+            // nettoyer erreurs en direct au focus (optionnel, UX)
+            fields.forEach(f => {
+                const input = document.getElementById(f.id);
+                if (input) {
+                    input.addEventListener('focus', () => {
+                        clearError(f.id, f.errorId, f.groupId);
+                    });
+                }
+            });
+        })();
+    </script>
+
+    <!-- petit ajustement pour le placeholder du select (invisible si non sélectionné) -->
+    <style>
+        select:invalid { color: #7a8b9f; }
+        option { color: #1a2639; }
+    </style>
+</body>
+</html>

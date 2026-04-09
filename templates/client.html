@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>UpSkill · Mon Espace Formation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f9ff;
+            color: #0f172a;
+            line-height: 1.4;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+        }
+
+        /* header moderne */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2edff;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-area i {
+            font-size: 2rem;
+            color: #1e2a5e;
+        }
+        .logo-area h2 {
+            font-weight: 700;
+            font-size: 1.7rem;
+            background: linear-gradient(135deg, #1e2a5e, #3b4e8c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .logout-badge {
+            background: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .logout-badge i {
+            margin-right: 6px;
+            color: #ef4444;
+        }
+        .logout-badge:hover {
+            background: #fee2e2;
+        }
+
+        /* grille */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background: white;
+            border-radius: 1.6rem;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
+            transition: all 0.25s ease;
+            border: 1px solid rgba(203, 213, 225, 0.3);
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+        }
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #3b82f6;
+            padding-left: 14px;
+        }
+        .profile-row {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .avatar {
+            background: linear-gradient(145deg, #d9e6ff, #c2d6ff);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #1e2a5e;
+        }
+        .profile-details p {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+        .badge-status {
+            background: #e6f7e6;
+            color: #15803d;
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* progression */
+        .progress-section {
+            margin: 1rem 0;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .progress-bar-bg {
+            background: #e2e8f0;
+            border-radius: 60px;
+            height: 12px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            width: 75%;
+            height: 100%;
+            border-radius: 60px;
+            transition: width 0.4s ease;
+        }
+        .motivation-text {
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            color: #2c3e66;
+            background: #f1f5f9;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            text-align: center;
+        }
+        .certificate-card {
+            background: #fefce8;
+            border-left: 5px solid #eab308;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            margin-top: 1rem;
+        }
+        .btn-download {
+            background: #1e2a5e;
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .btn-download:hover {
+            background: #0f1b44;
+        }
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .course-card {
+            background: #ffffff;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.02);
+            border: 1px solid #eef2ff;
+            transition: all 0.2s;
+        }
+        .course-card i {
+            font-size: 2rem;
+            background: #eef3ff;
+            padding: 10px;
+            border-radius: 1rem;
+            color: #2563eb;
+        }
+        .course-card h4 {
+            margin: 12px 0 6px;
+        }
+        .course-card p {
+            font-size: 0.8rem;
+            color: #475569;
+        }
+        .btn-sm {
+            background: none;
+            border: 1px solid #cbd5e1;
+            padding: 0.3rem 0.9rem;
+            border-radius: 30px;
+            margin-top: 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-sm:hover {
+            background: #eef2ff;
+            border-color: #3b82f6;
+        }
+        hr {
+            margin: 1rem 0;
+        }
+        .fullwidth {
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 760px) {
+            .container {
+                padding: 1rem;
+            }
+            .grid-2col {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="dashboard-header">
+        <div class="logo-area">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>UpSkill · Espace Employé</h2>
+        </div>
+        <div class="header-actions">
+            <div class="logout-badge" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</div>
+        </div>
+    </div>
+
+    <!-- Grille principale -->
+    <div class="grid-2col">
+        <!-- 1) SECTION PROFIL CLIENT -->
+        <div class="card">
+            <div class="card-title"><i class="fas fa-user-circle"></i> Mon profil</div>
+            <div class="profile-row">
+                <div class="avatar">
+                    <i class="fas fa-user-astronaut"></i>
+                </div>
+                <div class="profile-details">
+                    <p><i class="fas fa-user"></i> <strong>Ahmed Benali</strong></p>
+                    <p><i class="fas fa-envelope"></i> ahmed.benali@entreprise.com</p>
+                    <p><i class="fas fa-phone-alt"></i> +212 6 12 34 56 78</p>
+                    <p><i class="fas fa-calendar-alt"></i> Inscription : 15 Mars 2026</p>
+                    <p><i class="fas fa-book-open"></i> Formation : Développement Web Full Stack</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2) SECTION MES FORMATIONS (carte formation actuelle) -->
+        <div class="card">
+            <div class="card-title"><i class="fas fa-chalkboard-user"></i> Formation en cours</div>
+            <div><strong>🚀 Développement Web Full Stack</strong> <span class="badge-status"><i class="fas fa-play"></i> En cours</span></div>
+            <p style="margin-top: 10px;"><i class="fas fa-tag"></i> Catégorie : Technologies Web · <i class="fas fa-chalkboard"></i> Formateur : Sarah El Mansouri</p>
+            <p><i class="fas fa-hourglass-half"></i> Durée : 8 semaines (64 heures)</p>
+            <p><i class="fas fa-flag-checkered"></i> Statut : Module 4/6 validé</p>
+        </div>
+    </div>
+
+    <!-- 3) SECTION PROGRESSION & CERTIFICAT (liés dynamiquement) -->
+    <div class="grid-2col" style="grid-template-columns: 1fr 1fr;">
+        <!-- Progression -->
+        <div class="card">
+            <div class="card-title"><i class="fas fa-chart-line"></i> Ma progression</div>
+            <div class="progress-section">
+                <div class="progress-label">
+                    <span>Progression globale</span>
+                    <span id="progressPercent">75%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill" id="progressFillBar" style="width: 75%;"></div>
+                </div>
+                <div class="motivation-text" id="motivationMsg">
+                    <i class="fas fa-star"></i> Continuez vos efforts, vous êtes proche de la certification !
+                </div>
+            </div>
+            <!-- simulateur pour passer à 100% (option démo front) -->
+            <div style="margin-top: 18px; background:#f1f5f9; padding: 0.7rem; border-radius: 1rem;">
+                <p style="font-size: 0.8rem; font-weight:500;"><i class="fas fa-flask"></i> Démo interactive :</p>
+                <button id="completeCourseBtn" class="btn-sm" style="background:#e2e8f0;"><i class="fas fa-check-circle"></i> Simuler formation terminée (100%)</button>
+                <button id="resetProgressBtn" class="btn-sm" style="margin-left: 8px;"><i class="fas fa-undo-alt"></i> Remettre à 75%</button>
+            </div>
+        </div>
+
+        <!-- SECTION CERTIFICAT dynamique -->
+        <div class="card" id="certificateCardArea">
+            <div class="card-title"><i class="fas fa-certificate"></i> Attestation & certificat</div>
+            <div id="certificateDynamicContent">
+                <div class="certificate-card" style="background:#f9f9ff;">
+                    <i class="fas fa-lock" style="margin-right: 8px;"></i> Le certificat sera disponible après la fin complète de la formation.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5) SECTION PARCOURIR LES FORMATIONS -->
+    <div class="card fullwidth" style="margin-top: 0.2rem;">
+        <div class="card-title"><i class="fas fa-compass"></i> Explorer d'autres formations</div>
+        <div class="courses-grid">
+            <div class="course-card"><i class="fab fa-react"></i><h4>Développement Web</h4><p>React, Node.js, MongoDB - Projets concrets</p><button class="btn-sm view-more">Voir plus</button></div>
+            <div class="course-card"><i class="fas fa-chart-simple"></i><h4>Data Science</h4><p>Python, Pandas, Machine Learning</p><button class="btn-sm view-more">Voir plus</button></div>
+            <div class="course-card"><i class="fas fa-bullhorn"></i><h4>Marketing Digital</h4><p>SEO, Social Ads, Analytics</p><button class="btn-sm view-more">Voir plus</button></div>
+            <div class="course-card"><i class="fas fa-file-excel"></i><h4>Excel Professionnel</h4><p>Tableaux croisés, Power Query, automatisation</p><button class="btn-sm view-more">Voir plus</button></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ========== GESTION PROGRESSION + CERTIFICAT (simulation frontend) ==========
+    let currentProgress = 75;   // en pourcentage
+
+    const progressFill = document.getElementById('progressFillBar');
+    const progressPercentSpan = document.getElementById('progressPercent');
+    const motivationMsg = document.getElementById('motivationMsg');
+    const certificateContainer = document.getElementById('certificateDynamicContent');
+
+    // Données client statiques (pour affichage certificat)
+    const clientName = "Ahmed Benali";
+    const trainingName = "Développement Web Full Stack";
+
+    function updateProgressUI() {
+        // Mettre à jour barre + texte %
+        progressFill.style.width = currentProgress + '%';
+        progressPercentSpan.innerText = currentProgress + '%';
+
+        // Message motivation
+        if (currentProgress < 100) {
+            motivationMsg.innerHTML = '<i class="fas fa-trophy"></i> Continuez vos efforts, vous êtes proche de la certification !';
+        } else {
+            motivationMsg.innerHTML = '<i class="fas fa-crown"></i> Félicitations ! Vous avez terminé la formation avec succès.';
+        }
+
+        // Mettre à jour la carte certificat en fonction de la progression
+        updateCertificateCard();
+    }
+
+    function updateCertificateCard() {
+        if (currentProgress < 100) {
+            // Cas 1 : progression inférieure à 100%
+            certificateContainer.innerHTML = `
+                <div class="certificate-card" style="background:#fef2f0; border-left-color:#f97316;">
+                    <i class="fas fa-hourglass-half"></i> 
+                    <strong>Certificat non disponible</strong><br>
+                    Le certificat sera disponible après la fin complète de la formation (100%).
+                    <div style="margin-top: 8px; font-size:0.8rem;">Progression actuelle : ${currentProgress}%</div>
+                </div>
+            `;
+        } else {
+            // Cas 2 : progression = 100% : afficher certificat avec bouton téléchargement simulé
+            certificateContainer.innerHTML = `
+                <div class="certificate-card" style="background:#e6f9ed; border-left-color:#10b981;">
+                    <i class="fas fa-award"></i> <strong>Certificat de réussite</strong><br>
+                    <hr style="margin:8px 0;">
+                    <p><i class="fas fa-user-graduate"></i> Nom : ${clientName}</p>
+                    <p><i class="fas fa-laptop-code"></i> Formation : ${trainingName}</p>
+                    <p><i class="fas fa-check-circle"></i> Mention : Certificat de réussite – UpSkill</p>
+                    <button id="realDownloadBtn" class="btn-download"><i class="fas fa-download"></i> Télécharger le certificat</button>
+                </div>
+            `;
+            // Ajouter l'event listener après injection
+            const downloadBtn = document.getElementById('realDownloadBtn');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', () => {
+                    // Simulation téléchargement PDF / fichier texte
+                    const certContent = `CERTIFICAT DE RÉUSSITE\n\nDélivré à : ${clientName}\nFormation : ${trainingName}\nDate d'obtention : ${new Date().toLocaleDateString()}\nUpSkill – Centre de formation professionnelle.`;
+                    const blob = new Blob([certContent], {type: 'text/plain'});
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `Certificat_${clientName.replace(/\s/g, '_')}.txt`;
+                    link.click();
+                    URL.revokeObjectURL(link.href);
+                });
+            }
+        }
+    }
+
+    // Boutons simulation (démo frontend)
+    document.getElementById('completeCourseBtn').addEventListener('click', () => {
+        currentProgress = 100;
+        updateProgressUI();
+    });
+    document.getElementById('resetProgressBtn').addEventListener('click', () => {
+        currentProgress = 75;
+        updateProgressUI();
+    });
+
+    // Initialisation UI
+    updateProgressUI();
+
+    // Gestion "déconnexion" redirection vers login
+    const logoutBtn = document.getElementById('logoutBtn');
+    if(logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            window.location.href = 'login_client.html';
+        });
+    }
+
+    // Interaction pour tous les boutons "Voir plus"
+    const viewMoreBtns = document.querySelectorAll('.view-more');
+    viewMoreBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert("🔍 Fonctionnalité à venir : plus de détails sur cette formation. (Démo frontend)");
+        });
+    });
+</script>
+</body>
+</html>

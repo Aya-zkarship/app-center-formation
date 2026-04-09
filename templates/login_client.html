@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>UpSkill · Connexion Espace Formation</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e9eff8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        /* motif subtil en arrière-plan */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(#cbd5e1 0.8px, transparent 0.8px);
+            background-size: 24px 24px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        /* carte principale moderne */
+        .login-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 8px 18px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            max-width: 480px;
+            width: 100%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 50px -15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            background: linear-gradient(115deg, #1e2a5e 0%, #2a3f7e 100%);
+            padding: 1.8rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .logo-area {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 0.75rem;
+        }
+
+        .logo-area i {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .logo-area h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .card-header p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-top: 6px;
+        }
+
+        .card-body {
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        .illustration-icon {
+            text-align: center;
+            font-size: 3rem;
+            color: #2a3f7e;
+            background: #eef3ff;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem auto;
+            box-shadow: 0 8px 14px rgba(0,0,0,0.05);
+        }
+
+        .help-text {
+            text-align: center;
+            color: #4b5563;
+            font-size: 0.9rem;
+            margin-bottom: 1.8rem;
+            background: #f8fafc;
+            padding: 0.6rem 1rem;
+            border-radius: 60px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .input-group {
+            margin-bottom: 1.6rem;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #1e293b;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .input-group label i {
+            margin-right: 8px;
+            color: #3b82f6;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            font-size: 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1.2rem;
+            transition: all 0.2s;
+            font-family: 'Inter', monospace;
+            letter-spacing: 0.3px;
+            background: #fff;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+
+        .btn-login {
+            background: linear-gradient(95deg, #1e2a5e, #2c3e7a);
+            color: white;
+            width: 100%;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 0.5rem;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(95deg, #12204a, #1f3470);
+            transform: scale(1.01);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .error-message {
+            background: #fee2e2;
+            border-left: 4px solid #dc2626;
+            color: #991b1b;
+            padding: 0.8rem 1rem;
+            border-radius: 1rem;
+            margin-bottom: 1.4rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-message i {
+            font-size: 1.1rem;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 1.8rem;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .back-link a:hover {
+            color: #1e2a5e;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: 0;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        @media (max-width: 550px) {
+            .card-body {
+                padding: 1.6rem;
+            }
+            .logo-area h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <div class="login-card">
+        <div class="card-header">
+            <div class="logo-area">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>UpSkill</h1>
+            </div>
+            <p>Formation continue · Excellence professionnelle</p>
+        </div>
+        <div class="card-body">
+            <div class="illustration-icon">
+                <i class="fas fa-laptop-code"></i>
+            </div>
+            <div class="help-text">
+                <i class="fas fa-key" style="margin-right: 8px;"></i> Entrez votre code d'accès pour accéder à votre espace personnel.
+            </div>
+
+            <div id="errorBox" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> <span id="errorText">Code d'accès invalide</span>
+            </div>
+
+            <div class="input-group">
+                <label><i class="fas fa-qrcode"></i> Code d'accès</label>
+                <input type="text" id="accessCode" placeholder="ex: EMP2026" autocomplete="off">
+            </div>
+
+            <button class="btn-login" id="loginBtn"><i class="fas fa-arrow-right-to-bracket"></i> Se connecter</button>
+
+            <div class="back-link">
+                <a href="#"><i class="fas fa-home"></i> Retour à l'accueil</a>
+            </div>
+            <hr>
+            <div style="text-align: center; font-size: 0.75rem; color: #6c757d;">
+                <i class="fas fa-shield-alt"></i> Accès sécurisé · Code fourni par l'administration
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // LOGIQUE FRONTEND : validation du code d'accès
+    // Le code attendu est "EMP2026" (exemple admin)
+    const VALID_CODE = "EMP2026";
+
+    const loginBtn = document.getElementById('loginBtn');
+    const codeInput = document.getElementById('accessCode');
+    const errorBox = document.getElementById('errorBox');
+
+    function showError(message) {
+        errorBox.style.display = 'flex';
+        document.getElementById('errorText').innerText = message;
+        // auto-masquer après 3 secondes
+        setTimeout(() => {
+            if(errorBox.style.display === 'flex') errorBox.style.display = 'none';
+        }, 3200);
+    }
+
+    function handleLogin() {
+        const enteredCode = codeInput.value.trim();
+        if(enteredCode === VALID_CODE) {
+            // Redirection vers client.html
+            window.location.href = "client.html";
+        } else {
+            showError("Code d'accès invalide. Veuillez réessayer.");
+            codeInput.value = '';
+            codeInput.focus();
+        }
+    }
+
+    loginBtn.addEventListener('click', handleLogin);
+    codeInput.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') handleLogin();
+    });
+</script>
+</body>
+</html>
