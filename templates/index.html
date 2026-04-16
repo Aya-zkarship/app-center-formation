@@ -281,10 +281,10 @@
       margin-bottom: 1.2rem;
     }
 
-    /* ===== FORMATIONS (grille horizontale) ===== */
+    /* ===== FORMATIONS (grille dynamique) ===== */
     .formation-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
       margin-top: 2.5rem;
     }
@@ -297,11 +297,25 @@
       transition: var(--transition);
       border: 1px solid #ecf3fa;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
 
     .card:hover {
       box-shadow: var(--shadow-lg);
       transform: translateY(-6px);
+    }
+
+    .card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--bleu-principal);
+    }
+
+    .card p {
+      margin-bottom: 1rem;
+      flex-grow: 1;
     }
 
     .badge {
@@ -313,6 +327,7 @@
       border-radius: 30px;
       display: inline-block;
       margin-right: 0.5rem;
+      margin-top: 0.5rem;
     }
 
     .certif-stamp {
@@ -583,35 +598,28 @@
       </div>
     </section>
 
-    <!-- 4️⃣ NOS FORMATIONS (grille horizontale) -->
+    <!-- 4️⃣ NOS FORMATIONS (grille dynamique avec données Django) -->
     <section id="formations" style="background: var(--gris-light);" class="fade-scroll">
       <div class="container">
         <h2 class="section-title">Nos formations certifiées</h2>
         <div class="formation-grid">
+          {% for f in formations %}
           <div class="card" onclick="window.location='formations.html';">
-            <h3>Leadership & management</h3>
-            <p style="margin:0.8rem 0">Développer le leadership de vos managers.</p>
-            <span class="badge">Intermédiaire</span> <span class="badge">24h</span>
-            <div class="certif-stamp"><i class="fas fa-check-circle"></i> Formation certifiée · RNCP</div>
+            <h2>{{ f.nom }}</h2>
+            <p>{{ f.description }}</p>
+            <div>
+              <span class="badge"><strong>{{ f.niveau }}</strong></span>
+              <span class="badge">{{ f.duree }}</span>
+            </div>
+            <div class="certif-stamp">
+              <i class="fas fa-check-circle"></i> {{ f.certification }}
+            </div>
           </div>
-          <div class="card" onclick="window.location='formations.html';">
-            <h3>Data analyse pour managers</h3>
-            <p>Maîtriser les fondamentaux de la data.</p>
-            <span class="badge">Débutant</span> <span class="badge">18h</span>
-            <div class="certif-stamp"><i class="fas fa-check-circle"></i> Certificat reconnu</div>
+          {% empty %}
+          <div class="card">
+            <p>Aucune formation disponible.</p>
           </div>
-          <div class="card" onclick="window.location='formations.html';">
-            <h3>Agilité & Scrum</h3>
-            <p>Adoptez les méthodes agiles.</p>
-            <span class="badge">Avancé</span> <span class="badge">21h</span>
-            <div class="certif-stamp"><i class="fas fa-check-circle"></i> Certificat professionnel</div>
-          </div>
-          <div class="card" onclick="window.location='formations.html';">
-            <h3>Soft skills : communication</h3>
-            <p>Mieux communiquer pour mieux collaborer.</p>
-            <span class="badge">Tous niveaux</span> <span class="badge">12h</span>
-            <div class="certif-stamp"><i class="fas fa-check-circle"></i> Certifiée · CPF</div>
-          </div>
+          {% endfor %}
         </div>
         <p style="text-align:center; margin-top:2rem">
           <i class="fas fa-check-circle" style="color:var(--or);"></i> 
