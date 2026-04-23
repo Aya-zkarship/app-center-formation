@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Devis
-from .models import Formation  # Add this missing import
-from .models import Client
+from .models import Devis, Formation, Client, Inscription  # Regroupement des imports
+from django.contrib import messages  # Import en haut du fichier
 
 def index(request):
     formations = Formation.objects.all()
@@ -11,8 +10,8 @@ def index(request):
 
 def devis(request):
     if request.method == "POST":
-        # Add validation to prevent empty submissions
-        if all(request.POST.get(field) for field in ['nom', 'email']):  # Basic validation
+        # Validation des champs obligatoires
+        if request.POST.get('nom') and request.POST.get('email'):  # Validation simplifiée
             Devis.objects.create(
                 nom=request.POST.get('nom'),
                 email=request.POST.get('email'),
@@ -24,19 +23,12 @@ def devis(request):
                 ville=request.POST.get('ville'),
                 details=request.POST.get('details'),
             )
-            # Add success message (optional)
-            from django.contrib import messages
             messages.success(request, "Votre devis a été envoyé avec succès!")
             return redirect('devis')
         else:
-            # Handle validation error
-            from django.contrib import messages
-            messages.error(request, "Veuillez remplir tous les champs obligatoires.")
+            messages.error(request, "Veuillez remplir tous les champs obligatoires (nom et email).")
     
     return render(request, 'devis.html')
-
-
-
 
 def client_login(request):
     error = None
@@ -53,28 +45,7 @@ def client_login(request):
 
     return render(request, "client_login.html", {"error": error})
 
-def client_dashboard(request):
-    client_id = request.session.get('client_id')
 
-    if not client_id:
-        return redirect('client_dashboard')
-
-    client = Client.objects.get(id=client_id)
-
-    return render(request, 'client.html', {'client': client})
-
-
-def client_dashboard(request):
-    client_id = request.session.get('client_id')
-
-    if not client_id:
-        return redirect('client_dashboard')
-
-    client = Client.objects.get(id=client_id)
-
-    return render(request, 'client.html', {
-        'client': client
-    })
 
 def client_dashboard(request):
     client_id = request.session.get('client_id')
@@ -82,11 +53,45 @@ def client_dashboard(request):
     if not client_id:
         return redirect('client_login')
 
-    client = Client.objects.get(id=client_id)
+    try:
+        client = Client.objects.get(id=client_id)
 
-    modules = client.formation.modules.all().order_by('ordre')
+        
+        inscriptions = Inscription.objects.filter(client=client)
 
-    return render(request, 'client.html', {
-        'client': client,
-        'modules': modules
-    })
+        return render(request, 'client.html', {
+            'client': client,
+            'inscriptions': inscriptions,
+        })
+
+    except Client.DoesNotExist:
+        del request.session['client_id']
+        return redirect('client_login')
+    
+
+def update_progress(request, inscription_id):
+    ins = Inscription.objects.get(id=inscription_id)
+    ins.progress += 20
+
+    if ins.progress >= 100:
+        ins.progress = 100
+        ins.termine = True
+
+    ins.save()
+    return redirect('client_dashboard')   
+
+
+def logout_view(request):
+    request.session.flush()
+    return redirect('client_login')
+
+
+
+
+
+
+
+
+
+
+

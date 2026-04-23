@@ -1,1126 +1,1808 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>UpSkill – Student Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UpSkill Pro · Dashboard Apprenant</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* ===== CSS VARIABLES ===== */
 :root {
-  --blue-950: #0a1628;
-  --blue-900: #0d2045;
-  --blue-800: #1a3a6e;
-  --blue-700: #1d4ed8;
-  --blue-600: #2563eb;
-  --blue-500: #3b82f6;
-  --blue-400: #60a5fa;
-  --blue-300: #93c5fd;
-  --blue-100: #dbeafe;
-  --blue-50:  #eff6ff;
-  --teal:     #0ea5e9;
-  --emerald:  #10b981;
-  --amber:    #f59e0b;
-  --rose:     #f43f5e;
-  --white:    #ffffff;
-  --slate-50: #f8fafc;
-  --slate-100:#f1f5f9;
-  --slate-200:#e2e8f0;
-  --slate-300:#cbd5e1;
-  --slate-400:#94a3b8;
-  --slate-500:#64748b;
-  --slate-600:#475569;
-  --slate-700:#334155;
-  --slate-800:#1e293b;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
-  --shadow-md: 0 4px 20px rgba(0,0,0,.08);
-  --shadow-lg: 0 10px 40px rgba(0,0,0,.12);
-  --shadow-xl: 0 20px 60px rgba(0,0,0,.15);
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
-  --transition: .25s cubic-bezier(.4,0,.2,1);
+  --navy:       #08213a;
+  --navy-2:     #0d2d4e;
+  --navy-3:     #163d62;
+  --blue:       #1a5fa8;
+  --blue-light: #e8f2fd;
+  --gold:       #d4af37;
+  --gold-2:     #f0cc5a;
+  --gold-light: #fdf8e8;
+  --gold-dark:  #a8871a;
+  --green:      #1a7a4a;
+  --green-l:    #e6f7ee;
+  --red:        #c0392b;
+  --red-l:      #fdf0ee;
+  --amber:      #c47d0e;
+  --amber-l:    #fef3e2;
+  --surface:    #f4f7fb;
+  --white:      #ffffff;
+  --border:     #e2eaf4;
+  --text-1:     #0d1f30;
+  --text-2:     #3d5a73;
+  --text-3:     #8aa4be;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 30px;
+  --sh:  0 2px 16px rgba(8,33,58,0.07);
+  --sh2: 0 8px 40px rgba(8,33,58,0.13);
+  --tr:  all 0.22s cubic-bezier(.4,0,.2,1);
 }
 
-/* ===== RESET & BASE ===== */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
-body{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  background:var(--slate-50);
-  color:var(--slate-800);
-  min-height:100vh;
-  overflow-x:hidden;
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--surface);
+  color: var(--text-1);
+  min-height: 100vh;
+  display: flex;
 }
 
-/* ===== LAYOUT GRID ===== */
-.layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+h1,h2,h3,h4,h5 { font-family: 'Sora', sans-serif; font-weight: 700; }
 
-/* ===== SIDEBAR ===== */
-.sidebar{
-  background:linear-gradient(160deg,var(--blue-950) 0%,var(--blue-900) 60%,#0f2d5a 100%);
-  position:sticky;top:0;height:100vh;
-  display:flex;flex-direction:column;
-  padding:0;overflow:hidden;
-  box-shadow:4px 0 24px rgba(0,0,0,.2);
-  z-index:100;
-}
-.sidebar-brand{
-  display:flex;align-items:center;gap:12px;
-  padding:28px 28px 24px;
-  border-bottom:1px solid rgba(255,255,255,.07);
-}
-.brand-icon{
-  width:44px;height:44px;border-radius:12px;
-  background:linear-gradient(135deg,var(--blue-500),var(--teal));
-  display:grid;place-items:center;
-  font-size:20px;color:#fff;
-  box-shadow:0 4px 16px rgba(59,130,246,.4);
-}
-.brand-text{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;letter-spacing:-.3px}
-.brand-text span{color:var(--blue-400)}
-
-.sidebar-nav{flex:1;padding:20px 16px;overflow-y:auto}
-.nav-label{
-  font-size:10px;font-weight:700;letter-spacing:1.5px;
-  color:rgba(255,255,255,.3);text-transform:uppercase;
-  padding:0 12px;margin:20px 0 8px;
-}
-.nav-item{
-  display:flex;align-items:center;gap:14px;
-  padding:12px 14px;border-radius:12px;
-  color:rgba(255,255,255,.6);font-size:14px;font-weight:500;
-  cursor:pointer;transition:var(--transition);margin-bottom:4px;
-  text-decoration:none;
-}
-.nav-item i{width:20px;text-align:center;font-size:16px}
-.nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
-.nav-item.active{
-  background:linear-gradient(135deg,rgba(59,130,246,.3),rgba(14,165,233,.2));
-  color:#fff;border:1px solid rgba(99,179,237,.2);
-}
-.nav-item.active i{color:var(--blue-400)}
-.nav-badge{
-  margin-left:auto;background:var(--rose);color:#fff;
-  font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;
+/* ═══════════════════════════════
+   SIDEBAR
+═══════════════════════════════ */
+.sidebar {
+  width: 272px;
+  background: var(--navy);
+  min-height: 100vh;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  transition: var(--tr);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.sidebar-footer{
-  padding:20px 16px;border-top:1px solid rgba(255,255,255,.07);
-}
-.sidebar-user{
-  display:flex;align-items:center;gap:12px;
-  padding:12px;border-radius:12px;
-  background:rgba(255,255,255,.06);
-}
-.sidebar-avatar{
-  width:40px;height:40px;border-radius:10px;
-  background:linear-gradient(135deg,var(--blue-500),var(--teal));
-  display:grid;place-items:center;font-size:16px;font-weight:700;color:#fff;
-  flex-shrink:0;
-}
-.sidebar-user-info{flex:1;min-width:0}
-.sidebar-user-name{color:#fff;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sidebar-user-role{color:rgba(255,255,255,.4);font-size:11px}
-.sidebar-logout{
-  color:rgba(255,255,255,.4);background:none;border:none;
-  cursor:pointer;padding:6px;border-radius:8px;transition:var(--transition);
-  font-size:15px;
-}
-.sidebar-logout:hover{color:var(--rose);background:rgba(244,63,94,.1)}
-
-/* ===== MAIN CONTENT ===== */
-.main{display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden}
-
-/* ===== TOPBAR ===== */
-.topbar{
-  background:#fff;border-bottom:1px solid var(--slate-200);
-  padding:0 32px;height:72px;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:50;
-  box-shadow:var(--shadow-sm);
-}
-.topbar-left{display:flex;flex-direction:column}
-.topbar-greeting{font-size:13px;color:var(--slate-400);font-weight:500}
-.topbar-title{font-size:20px;font-weight:700;color:var(--slate-800)}
-.topbar-title span{color:var(--blue-600)}
-
-.topbar-right{display:flex;align-items:center;gap:16px}
-.topbar-search{
-  display:flex;align-items:center;gap:10px;
-  background:var(--slate-100);border:1.5px solid var(--slate-200);
-  border-radius:12px;padding:9px 16px;width:240px;
-  transition:var(--transition);
-}
-.topbar-search:focus-within{border-color:var(--blue-400);background:#fff}
-.topbar-search input{border:none;background:none;font-family:inherit;font-size:14px;color:var(--slate-700);outline:none;width:100%}
-.topbar-search i{color:var(--slate-400);font-size:14px}
-
-.icon-btn{
-  width:42px;height:42px;border-radius:12px;border:1.5px solid var(--slate-200);
-  background:#fff;display:grid;place-items:center;cursor:pointer;
-  position:relative;transition:var(--transition);color:var(--slate-500);font-size:16px;
-}
-.icon-btn:hover{border-color:var(--blue-400);color:var(--blue-600);background:var(--blue-50)}
-.notif-dot{
-  position:absolute;top:8px;right:8px;width:8px;height:8px;
-  background:var(--rose);border-radius:50%;border:2px solid #fff;
+/* decorative accent line top */
+.sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-2), transparent);
 }
 
-.avatar-btn{
-  width:42px;height:42px;border-radius:12px;
-  background:linear-gradient(135deg,var(--blue-600),var(--teal));
-  display:grid;place-items:center;font-size:16px;font-weight:700;color:#fff;
-  cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,.3);
-  border:none;transition:var(--transition);
+.sb-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 28px 24px 20px;
+  font-family: 'Sora', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
 }
-.avatar-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(37,99,235,.4)}
+.sb-logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; color: var(--navy);
+  flex-shrink: 0;
+}
+.sb-logo span { color: var(--gold); }
 
-/* ===== PAGE CONTENT ===== */
-.content{padding:32px;display:flex;flex-direction:column;gap:28px;flex:1}
+/* User card */
+.sb-user {
+  margin: 16px 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: var(--r-md);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: var(--tr);
+}
+.sb-user:hover { background: rgba(255,255,255,0.09); }
 
-/* ===== STATS STRIP ===== */
-.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.stat-card{
-  background:#fff;border-radius:var(--radius-md);padding:22px 24px;
-  border:1px solid var(--slate-200);box-shadow:var(--shadow-sm);
-  display:flex;align-items:center;gap:18px;
-  transition:var(--transition);position:relative;overflow:hidden;
+.sb-avatar-wrap {
+  position: relative; flex-shrink: 0;
 }
-.stat-card::before{
-  content:'';position:absolute;top:0;right:0;width:80px;height:80px;
-  border-radius:0 var(--radius-md) 0 80px;opacity:.06;
+.sb-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
 }
-.stat-card:nth-child(1)::before{background:var(--blue-500)}
-.stat-card:nth-child(2)::before{background:var(--emerald)}
-.stat-card:nth-child(3)::before{background:var(--amber)}
-.stat-card:nth-child(4)::before{background:var(--rose)}
-.stat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
-
-.stat-icon{
-  width:52px;height:52px;border-radius:14px;
-  display:grid;place-items:center;font-size:22px;flex-shrink:0;
+.sb-online {
+  width: 11px; height: 11px;
+  background: #2ecc71;
+  border: 2px solid var(--navy);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 1px; right: 1px;
 }
-.stat-icon.blue{background:linear-gradient(135deg,var(--blue-500),var(--teal));color:#fff;box-shadow:0 6px 16px rgba(59,130,246,.3)}
-.stat-icon.green{background:linear-gradient(135deg,#059669,var(--emerald));color:#fff;box-shadow:0 6px 16px rgba(16,185,129,.3)}
-.stat-icon.amber{background:linear-gradient(135deg,#d97706,var(--amber));color:#fff;box-shadow:0 6px 16px rgba(245,158,11,.3)}
-.stat-icon.rose{background:linear-gradient(135deg,#e11d48,var(--rose));color:#fff;box-shadow:0 6px 16px rgba(244,63,94,.3)}
-
-.stat-info{flex:1}
-.stat-label{font-size:12px;color:var(--slate-400);font-weight:600;letter-spacing:.3px;text-transform:uppercase}
-.stat-value{font-size:26px;font-weight:800;color:var(--slate-800);line-height:1.2;margin-top:4px}
-.stat-sub{font-size:12px;color:var(--slate-400);margin-top:3px}
-
-/* ===== GRID TWO COLUMNS ===== */
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.grid-3-1{display:grid;grid-template-columns:2fr 1fr;gap:24px}
-
-/* ===== CARD BASE ===== */
-.card{
-  background:#fff;border-radius:var(--radius-lg);
-  border:1px solid var(--slate-200);box-shadow:var(--shadow-sm);
-  overflow:hidden;
+.sb-user-name {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.88rem; font-weight: 700;
+  color: #fff; line-height: 1.2;
 }
-.card-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:22px 26px 18px;border-bottom:1px solid var(--slate-100);
+.sb-user-role {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.45);
+  margin-top: 2px;
 }
-.card-title{font-size:16px;font-weight:700;color:var(--slate-800);display:flex;align-items:center;gap:10px}
-.card-title i{color:var(--blue-500);font-size:17px}
-.card-body{padding:24px 26px}
-
-/* ===== PROFILE CARD ===== */
-.profile-card .card-body{padding:0}
-.profile-top{
-  background:linear-gradient(135deg,var(--blue-700) 0%,var(--blue-600) 50%,var(--teal) 100%);
-  padding:28px 26px 56px;position:relative;overflow:hidden;
-}
-.profile-top::before{
-  content:'';position:absolute;top:-30px;right:-30px;
-  width:150px;height:150px;border-radius:50%;
-  background:rgba(255,255,255,.06);
-}
-.profile-top::after{
-  content:'';position:absolute;bottom:-20px;left:60px;
-  width:100px;height:100px;border-radius:50%;
-  background:rgba(255,255,255,.04);
-}
-.profile-name-row{color:#fff}
-.profile-name-row .label{font-size:11px;text-transform:uppercase;letter-spacing:1px;opacity:.7;font-weight:600}
-.profile-name-row .name{font-size:22px;font-weight:800;margin-top:4px;font-family:'DM Serif Display',serif}
-
-.profile-avatar-wrap{
-  display:flex;justify-content:center;margin-top:-44px;margin-bottom:16px;
-}
-.profile-avatar{
-  width:88px;height:88px;border-radius:22px;
-  background:linear-gradient(135deg,var(--blue-500),var(--teal));
-  display:grid;place-items:center;font-size:34px;font-weight:800;color:#fff;
-  border:4px solid #fff;box-shadow:var(--shadow-lg);
-  position:relative;z-index:2;
-}
-.profile-online{
-  position:absolute;bottom:6px;right:6px;width:14px;height:14px;
-  background:var(--emerald);border-radius:50%;border:2.5px solid #fff;
+.sb-user-chevron {
+  margin-left: auto; color: rgba(255,255,255,0.3);
+  font-size: 0.75rem;
 }
 
-.profile-details{padding:0 26px 24px;display:flex;flex-direction:column;gap:0}
-.profile-row{
-  display:flex;align-items:center;gap:14px;
-  padding:12px 0;border-bottom:1px solid var(--slate-100);
-}
-.profile-row:last-child{border-bottom:none}
-.profile-row-icon{
-  width:36px;height:36px;border-radius:10px;background:var(--blue-50);
-  display:grid;place-items:center;color:var(--blue-500);font-size:14px;flex-shrink:0;
-}
-.profile-row-info{flex:1;min-width:0}
-.profile-row-label{font-size:11px;color:var(--slate-400);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
-.profile-row-value{font-size:14px;color:var(--slate-700);font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Nav */
+.sb-nav { flex: 1; padding: 8px 12px; }
 
-/* ===== PROGRESS CARD ===== */
-.progress-big{
-  display:flex;align-items:center;gap:24px;
-  padding:24px 26px;border-bottom:1px solid var(--slate-100);
-}
-.donut-wrap{position:relative;width:110px;height:110px;flex-shrink:0}
-.donut-wrap svg{transform:rotate(-90deg)}
-.donut-center{
-  position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-}
-.donut-pct{font-size:24px;font-weight:800;color:var(--blue-600)}
-.donut-sub{font-size:10px;color:var(--slate-400);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-
-.progress-meta{flex:1}
-.progress-meta h3{font-size:18px;font-weight:700;color:var(--slate-800);margin-bottom:6px}
-.progress-meta p{font-size:13px;color:var(--slate-400);line-height:1.6}
-.progress-eta{
-  display:inline-flex;align-items:center;gap:6px;margin-top:10px;
-  background:var(--blue-50);color:var(--blue-600);
-  font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;
-  border:1px solid var(--blue-100);
+.sb-section-label {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  padding: 14px 12px 6px;
 }
 
-.progress-modules{display:grid;grid-template-columns:1fr 1fr;gap:0}
-.prog-module-item{
-  padding:18px 26px;display:flex;align-items:center;gap:14px;
+.sb-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.62);
+  cursor: pointer;
+  transition: var(--tr);
+  margin-bottom: 2px;
+  text-decoration: none;
+  position: relative;
 }
-.prog-module-item:first-child{border-right:1px solid var(--slate-100)}
-.prog-module-icon{
-  width:44px;height:44px;border-radius:12px;
-  display:grid;place-items:center;font-size:18px;
+.sb-item i { width: 18px; text-align: center; font-size: 0.9rem; flex-shrink: 0; }
+.sb-item:hover { background: rgba(255,255,255,0.07); color: #fff; }
+.sb-item.active {
+  background: rgba(212,175,55,0.14);
+  color: var(--gold-2);
+  font-weight: 600;
 }
-.prog-module-icon.done{background:rgba(16,185,129,.1);color:var(--emerald)}
-.prog-module-icon.rem{background:rgba(245,158,11,.1);color:var(--amber)}
-.prog-module-num{font-size:28px;font-weight:800;color:var(--slate-800)}
-.prog-module-lbl{font-size:12px;color:var(--slate-400);font-weight:600;margin-top:2px}
-
-/* ===== FORMATION CARDS ===== */
-.formations-grid{display:flex;flex-direction:column;gap:20px;padding:24px 26px}
-.formation-card{
-  border:1.5px solid var(--slate-200);border-radius:var(--radius-md);
-  overflow:hidden;transition:var(--transition);background:#fff;
-}
-.formation-card:hover{border-color:var(--blue-300);box-shadow:var(--shadow-md);transform:translateY(-2px)}
-.formation-banner{
-  height:8px;
-  background:linear-gradient(90deg,var(--blue-600),var(--teal));
-}
-.formation-body{padding:20px}
-.formation-meta-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
-.formation-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  background:linear-gradient(135deg,var(--blue-600),var(--teal));
-  color:#fff;font-size:10px;font-weight:700;
-  padding:4px 10px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase;
-}
-.cert-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  background:linear-gradient(135deg,#d97706,var(--amber));
-  color:#fff;font-size:10px;font-weight:700;
-  padding:4px 10px;border-radius:20px;letter-spacing:.5px;
-}
-.formation-title{font-size:16px;font-weight:700;color:var(--slate-800);margin-bottom:6px}
-.formation-desc{font-size:13px;color:var(--slate-500);line-height:1.6;margin-bottom:14px}
-.formation-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.tag{
-  display:inline-flex;align-items:center;gap:5px;
-  background:var(--slate-100);color:var(--slate-600);
-  font-size:12px;font-weight:500;padding:5px 10px;border-radius:8px;
-}
-.tag i{color:var(--blue-500);font-size:11px}
-.formation-footer{display:flex;align-items:center;justify-content:space-between}
-.instructor-info{display:flex;align-items:center;gap:8px}
-.instructor-avatar{
-  width:30px;height:30px;border-radius:8px;
-  background:linear-gradient(135deg,var(--blue-800),var(--blue-600));
-  display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff;
-}
-.instructor-name{font-size:12px;color:var(--slate-500);font-weight:500}
-.instructor-name strong{color:var(--slate-700);display:block;font-size:13px}
-
-/* ===== MODULES LIST ===== */
-.modules-list{display:flex;flex-direction:column;gap:12px;padding:0 26px 24px}
-.module-item{
-  display:flex;align-items:center;gap:16px;
-  padding:16px;border-radius:var(--radius-md);border:1.5px solid var(--slate-200);
-  transition:var(--transition);background:#fff;
-}
-.module-item:hover{border-color:var(--blue-300);background:var(--blue-50)}
-.module-item.completed{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.03)}
-.module-num{
-  width:36px;height:36px;border-radius:10px;
-  display:grid;place-items:center;font-size:13px;font-weight:700;
-  flex-shrink:0;background:var(--slate-100);color:var(--slate-500);
-}
-.module-item.completed .module-num{background:rgba(16,185,129,.15);color:var(--emerald)}
-.module-icon{
-  width:40px;height:40px;border-radius:10px;
-  display:grid;place-items:center;font-size:18px;flex-shrink:0;
-}
-.module-icon.video{background:rgba(37,99,235,.1);color:var(--blue-600)}
-.module-icon.pdf{background:rgba(239,68,68,.1);color:#ef4444}
-.module-icon.quiz{background:rgba(245,158,11,.1);color:var(--amber)}
-.module-info{flex:1;min-width:0}
-.module-title{font-size:14px;font-weight:600;color:var(--slate-800);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.module-desc{font-size:12px;color:var(--slate-400)}
-.module-status{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:11px;font-weight:700;padding:4px 10px;border-radius:8px;flex-shrink:0;
-}
-.status-done{background:rgba(16,185,129,.12);color:var(--emerald)}
-.status-pending{background:rgba(245,158,11,.12);color:#d97706}
-.status-locked{background:var(--slate-100);color:var(--slate-400)}
-.btn-mark{
-  flex-shrink:0;font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;
-  border:1.5px solid var(--blue-500);color:var(--blue-600);background:transparent;
-  cursor:pointer;transition:var(--transition);font-family:inherit;
-  white-space:nowrap;
-}
-.btn-mark:hover{background:var(--blue-600);color:#fff}
-.btn-done{
-  flex-shrink:0;font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;
-  background:rgba(16,185,129,.12);color:var(--emerald);border:none;
-  font-family:inherit;cursor:default;white-space:nowrap;
+.sb-item.active i { color: var(--gold); }
+.sb-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; bottom: 20%;
+  width: 3px;
+  background: var(--gold);
+  border-radius: 0 3px 3px 0;
 }
 
-/* ===== BUTTONS ===== */
-.btn{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:inherit;font-size:14px;font-weight:600;
-  padding:11px 22px;border-radius:12px;cursor:pointer;
-  transition:var(--transition);border:none;text-decoration:none;
-}
-.btn-primary{
-  background:linear-gradient(135deg,var(--blue-600),var(--blue-700));
-  color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.35);
-}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,99,235,.45)}
-.btn-outline{
-  background:transparent;color:var(--blue-600);
-  border:1.5px solid var(--blue-400);
-}
-.btn-outline:hover{background:var(--blue-50)}
-.btn-sm{font-size:12px;padding:8px 16px}
-
-/* ===== CERTIFICATE SECTION ===== */
-.cert-section{
-  background:linear-gradient(135deg,var(--blue-950) 0%,var(--blue-900) 50%,#0f2d5a 100%);
-  border-radius:var(--radius-lg);overflow:hidden;position:relative;
-}
-.cert-section::before{
-  content:'';position:absolute;top:-60px;right:-60px;
-  width:280px;height:280px;border-radius:50%;
-  background:rgba(59,130,246,.07);
-}
-.cert-section::after{
-  content:'';position:absolute;bottom:-80px;left:-40px;
-  width:220px;height:220px;border-radius:50%;
-  background:rgba(14,165,233,.05);
-}
-.cert-inner{
-  padding:36px;display:flex;align-items:center;gap:32px;
-  position:relative;z-index:2;
-}
-.cert-icon-wrap{
-  width:100px;height:100px;border-radius:24px;
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
-  display:grid;place-items:center;font-size:44px;
-  flex-shrink:0;backdrop-filter:blur(8px);
-}
-.cert-icon-wrap.locked{color:rgba(255,255,255,.25)}
-.cert-icon-wrap.unlocked{color:var(--amber);filter:drop-shadow(0 0 12px rgba(245,158,11,.5))}
-
-.cert-content{flex:1}
-.cert-tag{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);
-  color:var(--blue-300);font-size:11px;font-weight:700;
-  padding:4px 12px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase;
-  margin-bottom:12px;
-}
-.cert-title{font-size:24px;font-weight:800;color:#fff;font-family:'DM Serif Display',serif;margin-bottom:8px}
-.cert-text{font-size:14px;color:rgba(255,255,255,.5);line-height:1.6;max-width:420px}
-
-.cert-progress-wrap{margin-top:20px;max-width:400px}
-.cert-progress-label{display:flex;justify-content:space-between;margin-bottom:8px}
-.cert-progress-label span{font-size:12px;color:rgba(255,255,255,.5);font-weight:500}
-.cert-progress-label strong{font-size:12px;color:rgba(255,255,255,.8);font-weight:700}
-.cert-bar-bg{height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
-.cert-bar-fill{
-  height:100%;border-radius:4px;
-  background:linear-gradient(90deg,var(--blue-500),var(--teal));
-  transition:width 1s ease;position:relative;
-}
-.cert-bar-fill::after{
-  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
-  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.3) 50%,transparent 100%);
-  animation:shimmer 2s infinite;
-}
-@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-
-.cert-actions{flex-shrink:0;display:flex;flex-direction:column;gap:12px;align-items:flex-end}
-.btn-cert{
-  display:inline-flex;align-items:center;gap:10px;
-  font-family:inherit;font-size:14px;font-weight:700;
-  padding:14px 28px;border-radius:14px;cursor:pointer;
-  transition:var(--transition);border:none;
-}
-.btn-cert.locked{
-  background:rgba(255,255,255,.06);color:rgba(255,255,255,.3);
-  border:1px solid rgba(255,255,255,.1);cursor:not-allowed;
-}
-.btn-cert.download{
-  background:linear-gradient(135deg,var(--amber),#d97706);
-  color:#fff;box-shadow:0 6px 20px rgba(245,158,11,.4);
-}
-.btn-cert.download:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(245,158,11,.5)}
-.cert-note{font-size:12px;color:rgba(255,255,255,.3);text-align:center}
-
-/* ===== ANNOUNCEMENT CARD ===== */
-.announce-list{display:flex;flex-direction:column;gap:0;padding:0 26px 20px}
-.announce-item{
-  display:flex;align-items:flex-start;gap:14px;
-  padding:14px 0;border-bottom:1px solid var(--slate-100);
-}
-.announce-item:last-child{border-bottom:none}
-.announce-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px}
-.announce-dot.blue{background:var(--blue-500)}
-.announce-dot.green{background:var(--emerald)}
-.announce-dot.amber{background:var(--amber)}
-.announce-text{flex:1}
-.announce-title{font-size:13px;font-weight:600;color:var(--slate-700);margin-bottom:2px}
-.announce-time{font-size:11px;color:var(--slate-400)}
-
-/* ===== PROGRESS BARS (section) ===== */
-.skill-bars{display:flex;flex-direction:column;gap:14px;padding:0 26px 24px}
-.skill-bar-item{}
-.skill-bar-header{display:flex;justify-content:space-between;margin-bottom:6px}
-.skill-bar-header span{font-size:13px;color:var(--slate-600);font-weight:500}
-.skill-bar-header strong{font-size:13px;font-weight:700;color:var(--slate-700)}
-.skill-bar-bg{height:8px;background:var(--slate-100);border-radius:4px;overflow:hidden}
-.skill-bar-fill{height:100%;border-radius:4px;transition:width 1s ease}
-.fill-blue{background:linear-gradient(90deg,var(--blue-500),var(--teal))}
-.fill-green{background:linear-gradient(90deg,#059669,var(--emerald))}
-.fill-amber{background:linear-gradient(90deg,#d97706,var(--amber))}
-.fill-rose{background:linear-gradient(90deg,#e11d48,var(--rose))}
-
-/* ===== VIEW ALL LINK ===== */
-.view-all{font-size:13px;color:var(--blue-500);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:var(--transition)}
-.view-all:hover{color:var(--blue-700);gap:8px}
-
-/* ===== EMPTY / LOCKED STATES ===== */
-.locked-overlay{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:36px;text-align:center;gap:12px;
-}
-.locked-overlay i{font-size:36px;color:var(--slate-300)}
-.locked-overlay p{font-size:14px;color:var(--slate-400);max-width:260px;line-height:1.6}
-
-/* ===== HAMBURGER (mobile) ===== */
-.hamburger{display:none;width:42px;height:42px;border-radius:12px;border:1.5px solid var(--slate-200);background:#fff;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--slate-600)}
-.sidebar-backdrop{display:none}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width:1200px){
-  .stats-strip{grid-template-columns:repeat(2,1fr)}
-  .grid-3-1{grid-template-columns:1fr}
-}
-@media (max-width:900px){
-  .grid-2{grid-template-columns:1fr}
-  .cert-inner{flex-direction:column;align-items:flex-start}
-  .cert-actions{align-items:flex-start;flex-direction:row;flex-wrap:wrap}
-}
-@media (max-width:768px){
-  .layout{grid-template-columns:1fr}
-  .sidebar{
-    position:fixed;top:0;left:-280px;height:100vh;
-    transition:left .3s cubic-bezier(.4,0,.2,1);z-index:200;
-  }
-  .sidebar.open{left:0}
-  .sidebar-backdrop{
-    display:block;position:fixed;inset:0;background:rgba(0,0,0,.4);
-    z-index:199;opacity:0;pointer-events:none;transition:opacity .3s;
-  }
-  .sidebar-backdrop.visible{opacity:1;pointer-events:all}
-  .hamburger{display:flex}
-  .topbar{padding:0 20px}
-  .topbar-search{display:none}
-  .content{padding:20px 16px;gap:20px}
-  .stats-strip{grid-template-columns:1fr 1fr}
-  .cert-inner{padding:24px}
-  .cert-title{font-size:18px}
-  .card-body,.formations-grid,.modules-list,.skill-bars,.announce-list{padding-left:18px;padding-right:18px}
-  .card-header{padding:18px 18px 14px}
-}
-@media (max-width:480px){
-  .stats-strip{grid-template-columns:1fr}
-  .progress-modules{grid-template-columns:1fr}
-  .prog-module-item:first-child{border-right:none;border-bottom:1px solid var(--slate-100)}
-  .cert-actions{flex-direction:column}
+.sb-badge {
+  margin-left: auto;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 0.65rem; font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-family: 'Sora', sans-serif;
 }
 
-/* ===== ANIMATIONS ===== */
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.card,.stats-strip,.cert-section{animation:fadeUp .5s ease both}
-.stats-strip{animation-delay:.05s}
-.card:nth-child(2){animation-delay:.1s}
-.card:nth-child(3){animation-delay:.15s}
-.card:nth-child(4){animation-delay:.2s}
+/* Progress mini */
+.sb-progress-wrap {
+  margin: 14px 14px 4px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: var(--r-md);
+  padding: 14px;
+}
+.sb-progress-label {
+  display: flex; justify-content: space-between;
+  font-size: 0.75rem; color: rgba(255,255,255,0.5);
+  margin-bottom: 8px;
+}
+.sb-progress-label span:last-child { color: var(--gold); font-weight: 700; }
+.sb-prog-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 30px; overflow: hidden; }
+.sb-prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-2));
+  border-radius: 30px;
+  transition: width 1.4s cubic-bezier(.4,0,.2,1);
+}
+
+.sb-bottom {
+  padding: 10px 12px 20px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  margin-top: 4px;
+}
+
+/* ═══════════════════════════════
+   MAIN
+═══════════════════════════════ */
+.main {
+  margin-left: 272px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════
+   TOPBAR
+═══════════════════════════════ */
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+
+.tb-left { display: flex; align-items: center; gap: 14px; }
+.tb-breadcrumb {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 0.8rem; color: var(--text-3);
+}
+.tb-breadcrumb strong { color: var(--text-1); font-weight: 600; font-family: 'Sora', sans-serif; font-size: 0.95rem; }
+.tb-sep { color: var(--border); }
+
+.tb-right { display: flex; align-items: center; gap: 10px; }
+
+.tb-btn {
+  width: 38px; height: 38px;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 0.95rem; color: var(--text-2);
+  transition: var(--tr); position: relative;
+}
+.tb-btn:hover { background: var(--blue-light); color: var(--blue); border-color: #c0d8f5; }
+
+.tb-notif-dot {
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  position: absolute; top: 5px; right: 5px;
+}
+
+.tb-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 0 14px;
+  height: 38px;
+  transition: var(--tr);
+}
+.tb-search:focus-within { border-color: #a0c0e8; background: var(--white); box-shadow: 0 0 0 3px rgba(26,95,168,0.08); }
+.tb-search i { color: var(--text-3); font-size: 0.85rem; }
+.tb-search input { border: none; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--text-1); outline: none; width: 180px; }
+.tb-search input::placeholder { color: var(--text-3); }
+
+.tb-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); cursor: pointer; }
+
+/* ═══════════════════════════════
+   PAGES
+═══════════════════════════════ */
+.page { display: none; padding: 2rem; flex-direction: column; gap: 1.8rem; animation: fadeUp 0.3s ease; }
+.page.active { display: flex; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════
+   COMPONENTS
+═══════════════════════════════ */
+
+/* Section header */
+.sec-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.sec-hdr h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.05rem; font-weight: 700;
+  color: var(--text-1);
+  display: flex; align-items: center; gap: 9px;
+}
+.sec-hdr h3 i { color: var(--gold); font-size: 0.9rem; }
+.sec-link {
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--blue); cursor: pointer;
+  text-decoration: none; transition: var(--tr);
+}
+.sec-link:hover { color: var(--navy); }
+
+/* Card base */
+.card {
+  background: var(--white);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--sh);
+  transition: var(--tr);
+}
+.card:hover { box-shadow: var(--sh2); }
+
+/* ═══════════════════════════════
+   PAGE: DASHBOARD
+═══════════════════════════════ */
+
+/* Welcome hero */
+.welcome-hero {
+  border-radius: var(--r-xl);
+  background: linear-gradient(130deg, var(--navy) 0%, var(--navy-3) 55%, #1a5fa8 100%);
+  padding: 2.2rem 2.6rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  position: relative; overflow: hidden;
+}
+.welcome-hero::before {
+  content: '';
+  position: absolute; top: -60px; right: 100px;
+  width: 240px; height: 240px; border-radius: 50%;
+  background: rgba(212,175,55,0.1);
+  pointer-events: none;
+}
+.welcome-hero::after {
+  content: '';
+  position: absolute; bottom: -80px; right: -20px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  pointer-events: none;
+}
+
+.wh-text h2 {
+  font-size: 1.7rem; color: #fff;
+  margin-bottom: 0.5rem; line-height: 1.2;
+}
+.wh-text h2 span { color: var(--gold-2); }
+.wh-text p { font-size: 0.9rem; color: rgba(255,255,255,0.65); max-width: 400px; line-height: 1.6; }
+
+.wh-chips { display: flex; gap: 10px; margin-top: 1.2rem; flex-wrap: wrap; }
+.wh-chip {
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 30px;
+  padding: 6px 14px;
+  font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.85);
+}
+.wh-chip i { color: var(--gold); font-size: 0.75rem; }
+
+.wh-action {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  position: relative; z-index: 1; flex-shrink: 0;
+}
+.wh-ring {
+  width: 110px; height: 110px;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.wh-ring svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+.wh-ring-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 6; }
+.wh-ring-fill { fill: none; stroke: url(#goldGrad); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 308; stroke-dashoffset: 98; transition: stroke-dashoffset 1.5s ease; }
+.wh-ring-center { text-align: center; z-index: 1; }
+.wh-ring-pct { font-family: 'Sora', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--gold-2); line-height: 1; }
+.wh-ring-lbl { font-size: 0.6rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+.btn-play {
+  display: flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--navy);
+  font-family: 'Sora', sans-serif;
+  font-size: 0.82rem; font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 50px; border: none; cursor: pointer;
+  transition: var(--tr);
+  box-shadow: 0 6px 20px rgba(212,175,55,0.35);
+}
+.btn-play:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212,175,55,0.4); }
+
+/* KPI row */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+}
+
+.kpi-card {
+  background: var(--white);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--sh);
+  padding: 1.4rem 1.6rem;
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: var(--tr);
+  position: relative; overflow: hidden;
+}
+.kpi-card:hover { transform: translateY(-3px); box-shadow: var(--sh2); }
+.kpi-card::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 0 0 var(--r-lg) var(--r-lg);
+  opacity: 0; transition: var(--tr);
+}
+.kpi-card:hover::after { opacity: 1; }
+.kpi-card.k-blue::after { background: var(--blue); }
+.kpi-card.k-gold::after { background: var(--gold); }
+.kpi-card.k-green::after { background: var(--green); }
+.kpi-card.k-red::after { background: var(--red); }
+
+.kpi-left { flex: 1; }
+.kpi-label { font-size: 0.75rem; color: var(--text-3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
+.kpi-val { font-family: 'Sora', sans-serif; font-size: 2rem; font-weight: 800; color: var(--text-1); line-height: 1.1; margin: 4px 0; }
+.kpi-sub { font-size: 0.75rem; color: var(--text-3); display: flex; align-items: center; gap: 5px; }
+.kpi-sub .up { color: var(--green); font-weight: 700; }
+.kpi-sub .down { color: var(--red); font-weight: 700; }
+
+.kpi-icon {
+  width: 46px; height: 46px; border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.15rem; flex-shrink: 0;
+}
+.kpi-icon.blue { background: var(--blue-light); color: var(--blue); }
+.kpi-icon.gold { background: var(--gold-light); color: var(--gold-dark); }
+.kpi-icon.green { background: var(--green-l); color: var(--green); }
+.kpi-icon.red { background: var(--red-l); color: var(--red); }
+
+/* Activity timeline */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tl-item {
+  display: flex; gap: 14px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: var(--tr);
+}
+.tl-item:last-child { border-bottom: none; }
+.tl-item:hover { background: var(--surface); }
+
+.tl-dot-col { display: flex; flex-direction: column; align-items: center; gap: 0; flex-shrink: 0; }
+.tl-dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; flex-shrink: 0;
+}
+.tl-dot.done  { background: var(--green-l); color: var(--green); }
+.tl-dot.play  { background: var(--blue-light); color: var(--blue); }
+.tl-dot.award { background: var(--gold-light); color: var(--gold-dark); }
+.tl-dot.quiz  { background: var(--amber-l); color: var(--amber); }
+
+.tl-line { width: 1px; flex: 1; background: var(--border); margin: 3px 0; min-height: 16px; }
+
+.tl-content { flex: 1; }
+.tl-title { font-size: 0.875rem; font-weight: 600; color: var(--text-1); }
+.tl-sub { font-size: 0.78rem; color: var(--text-3); margin-top: 2px; }
+.tl-time { font-size: 0.72rem; color: var(--text-3); margin-top: 4px; white-space: nowrap; }
+
+/* Mini calendar */
+.mini-cal { padding: 1.4rem; }
+.mc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.mc-month { font-family: 'Sora', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text-1); }
+.mc-nav { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--text-2); transition: var(--tr); }
+.mc-nav:hover { background: var(--blue-light); color: var(--blue); border-color: #c0d8f5; }
+
+.mc-days-hdr { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; margin-bottom: 4px; }
+.mc-day-lbl { text-align: center; font-size: 0.65rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; padding: 4px 0; }
+.mc-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+.mc-day {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; color: var(--text-2); border-radius: 8px;
+  cursor: pointer; transition: var(--tr);
+}
+.mc-day:hover { background: var(--blue-light); color: var(--blue); }
+.mc-day.today { background: var(--navy); color: #fff; font-weight: 700; }
+.mc-day.has-event { position: relative; }
+.mc-day.has-event::after { content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; }
+.mc-day.empty { cursor: default; }
+.mc-day.empty:hover { background: none; }
+
+/* Upcoming sessions */
+.session-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: var(--tr); cursor: pointer;
+}
+.session-item:last-child { border-bottom: none; }
+.session-item:hover { background: var(--surface); }
+.sess-date {
+  min-width: 46px; height: 50px;
+  background: var(--blue-light);
+  border-radius: 12px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; flex-shrink: 0;
+}
+.sess-day { font-family: 'Sora', sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--blue); line-height: 1; }
+.sess-mon { font-size: 0.6rem; text-transform: uppercase; color: var(--text-3); letter-spacing: 0.08em; }
+.sess-info { flex: 1; }
+.sess-title { font-size: 0.875rem; font-weight: 600; color: var(--text-1); }
+.sess-meta { font-size: 0.75rem; color: var(--text-3); margin-top: 2px; display: flex; gap: 10px; }
+.sess-meta i { color: var(--gold); font-size: 0.7rem; }
+.sess-tag {
+  font-size: 0.7rem; font-weight: 700; padding: 4px 10px;
+  border-radius: 20px; white-space: nowrap;
+}
+.sess-tag.live { background: #fdecea; color: var(--red); }
+.sess-tag.soon { background: var(--gold-light); color: var(--gold-dark); }
+.sess-tag.done { background: var(--green-l); color: var(--green); }
+
+/* ═══════════════════════════════
+   PAGE: PROFIL
+═══════════════════════════════ */
+
+.profile-hero {
+  border-radius: var(--r-xl);
+  background: linear-gradient(130deg, var(--navy) 0%, var(--navy-3) 100%);
+  padding: 2.4rem;
+  display: flex; align-items: center; gap: 2rem;
+  position: relative; overflow: hidden;
+}
+.profile-hero::before {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: rgba(212,175,55,0.1);
+}
+.ph-avatar-wrap { position: relative; flex-shrink: 0; }
+.ph-avatar {
+  width: 100px; height: 100px; border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--gold);
+  box-shadow: 0 0 0 6px rgba(212,175,55,0.18);
+}
+.ph-badge {
+  position: absolute; bottom: 0; right: 0;
+  background: var(--gold);
+  color: var(--navy);
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem;
+  border: 2px solid var(--navy);
+}
+.ph-info { flex: 1; z-index: 1; }
+.ph-name { font-size: 1.7rem; color: #fff; margin-bottom: 4px; }
+.ph-role {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(212,175,55,0.18);
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 30px;
+  padding: 4px 14px;
+  font-size: 0.78rem; font-weight: 600; color: var(--gold-2);
+  margin-bottom: 14px;
+}
+.ph-stats { display: flex; gap: 2rem; }
+.ph-stat { text-align: center; }
+.ph-stat-val { font-family: 'Sora', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--gold-2); line-height: 1; }
+.ph-stat-lbl { font-size: 0.7rem; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+.ph-actions { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; z-index: 1; flex-shrink: 0; }
+.btn-edit {
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50px;
+  padding: 8px 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem; font-weight: 600; color: #fff;
+  cursor: pointer; transition: var(--tr);
+}
+.btn-edit:hover { background: rgba(255,255,255,0.18); }
+
+/* Profile form card */
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1/-1; }
+.form-label { font-size: 0.78rem; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.06em; }
+.form-input {
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem; color: var(--text-1);
+  background: var(--surface);
+  outline: none; transition: var(--tr);
+}
+.form-input:focus { border-color: #a0c0e8; background: var(--white); box-shadow: 0 0 0 3px rgba(26,95,168,0.08); }
+.form-input:disabled { color: var(--text-3); cursor: default; }
+
+.skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.skill-tag {
+  background: var(--blue-light);
+  color: var(--blue);
+  border: 1px solid #c0d8f5;
+  border-radius: 30px;
+  padding: 5px 14px;
+  font-size: 0.78rem; font-weight: 600;
+  display: flex; align-items: center; gap: 6px; cursor: pointer;
+}
+.skill-tag i { font-size: 0.65rem; opacity: 0.5; }
+.skill-tag:hover i { opacity: 1; color: var(--red); }
+
+/* ═══════════════════════════════
+   PAGE: FORMATIONS & COURS
+═══════════════════════════════ */
+
+.filter-bar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.filter-pill {
+  padding: 7px 16px;
+  border-radius: 30px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--text-2); cursor: pointer; transition: var(--tr);
+}
+.filter-pill:hover { border-color: #a0c0e8; color: var(--blue); }
+.filter-pill.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.4rem;
+}
+
+.course-card {
+  background: var(--white);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--sh);
+  overflow: hidden;
+  transition: var(--tr);
+  cursor: pointer;
+}
+.course-card:hover { transform: translateY(-5px); box-shadow: var(--sh2); border-color: #c0d8f5; }
+
+.cc-thumb {
+  height: 140px;
+  position: relative; overflow: hidden;
+}
+.cc-thumb-bg {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem;
+}
+.cc-thumb-bg.navy { background: linear-gradient(135deg, var(--navy), var(--navy-3)); }
+.cc-thumb-bg.blue { background: linear-gradient(135deg, #1a5fa8, #2980b9); }
+.cc-thumb-bg.green { background: linear-gradient(135deg, #1a5a3a, #2ecc71); }
+.cc-thumb-bg.amber { background: linear-gradient(135deg, #8B4513, #d4af37); }
+
+.cc-status {
+  position: absolute; top: 12px; right: 12px;
+  font-size: 0.68rem; font-weight: 800;
+  padding: 4px 10px; border-radius: 20px;
+  font-family: 'Sora', sans-serif;
+}
+.cc-status.ongoing { background: var(--gold); color: var(--navy); }
+.cc-status.done    { background: #2ecc71; color: #fff; }
+.cc-status.locked  { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3); }
+
+.cc-pct {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 4px; background: rgba(0,0,0,0.2);
+}
+.cc-pct-fill { height: 100%; background: var(--gold); }
+
+.cc-body { padding: 1.2rem; }
+.cc-tag {
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--gold-dark); margin-bottom: 6px;
+}
+.cc-title { font-family: 'Sora', sans-serif; font-size: 1rem; font-weight: 700; color: var(--text-1); margin-bottom: 6px; line-height: 1.3; }
+.cc-desc { font-size: 0.8rem; color: var(--text-3); margin-bottom: 12px; line-height: 1.5; }
+.cc-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.cc-meta-i { font-size: 0.75rem; color: var(--text-3); display: flex; align-items: center; gap: 5px; }
+.cc-meta-i i { color: var(--gold); font-size: 0.7rem; }
+
+.cc-trainer { display: flex; align-items: center; gap: 9px; padding-top: 12px; border-top: 1px solid var(--border); }
+.cc-trainer img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold); }
+.cc-trainer-name { font-size: 0.78rem; font-weight: 600; color: var(--text-1); }
+.cc-trainer-role { font-size: 0.68rem; color: var(--text-3); }
+.cc-trainer-btn {
+  margin-left: auto;
+  background: var(--navy);
+  color: #fff;
+  font-size: 0.72rem; font-weight: 700;
+  padding: 6px 14px; border-radius: 30px;
+  border: none; cursor: pointer; transition: var(--tr);
+  font-family: 'DM Sans', sans-serif;
+}
+.cc-trainer-btn:hover { background: var(--blue); }
+
+/* Module accordion */
+.module-list { display: flex; flex-direction: column; gap: 8px; }
+.module-item {
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  transition: var(--tr);
+}
+.module-item.active-m { border-color: #a0c0e8; }
+.mod-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer; transition: var(--tr);
+}
+.mod-header:hover { background: var(--surface); }
+.mod-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.78rem; font-weight: 800;
+  flex-shrink: 0;
+}
+.mod-num.done  { background: var(--green-l); color: var(--green); }
+.mod-num.cur   { background: var(--blue-light); color: var(--blue); }
+.mod-num.next  { background: var(--surface); color: var(--text-3); }
+
+.mod-info { flex: 1; }
+.mod-title { font-size: 0.875rem; font-weight: 600; color: var(--text-1); }
+.mod-sub { font-size: 0.75rem; color: var(--text-3); margin-top: 1px; }
+.mod-badge { font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+.mod-badge.done  { background: var(--green-l); color: var(--green); }
+.mod-badge.cur   { background: var(--blue-light); color: var(--blue); }
+.mod-badge.next  { background: var(--surface); color: var(--text-3); }
+
+/* ═══════════════════════════════
+   PAGE: PROGRESSION & CERTIF
+═══════════════════════════════ */
+
+.prog-overview {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.4rem;
+}
+
+.donut-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 1.8rem 1.4rem;
+  gap: 1rem;
+}
+.donut-svg { transform: rotate(-90deg); }
+.donut-bg  { fill: none; stroke: var(--border); stroke-width: 10; }
+.donut-fill { fill: none; stroke: url(#progGrad); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 220; transition: stroke-dashoffset 1.5s ease; }
+.donut-text { text-anchor: middle; }
+.donut-pct-txt { font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 800; fill: var(--text-1); }
+.donut-lbl-txt { font-size: 7px; fill: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.prog-detail { padding: 1.4rem 1.6rem; display: flex; flex-direction: column; gap: 12px; }
+.prog-row {
+  display: flex; align-items: center; gap: 10px;
+}
+.prog-row-label { font-size: 0.8rem; color: var(--text-2); min-width: 160px; font-weight: 500; }
+.prog-bar-wrap { flex: 1; height: 7px; background: var(--border); border-radius: 30px; overflow: hidden; }
+.prog-bar-fill { height: 100%; border-radius: 30px; background: linear-gradient(90deg, var(--gold-dark), var(--gold-2)); }
+.prog-row-val { font-size: 0.78rem; font-weight: 700; color: var(--text-1); min-width: 36px; text-align: right; }
+
+/* Score history */
+.score-chart { padding: 1.4rem 1.6rem; }
+.score-bars { display: flex; align-items: flex-end; gap: 8px; height: 100px; margin: 1rem 0 0.5rem; }
+.score-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+.score-bar-fill {
+  width: 100%; border-radius: 6px 6px 0 0;
+  transition: height 1s ease;
+}
+.score-bar-fill.blue { background: linear-gradient(180deg, var(--blue), #5ba4e0); }
+.score-bar-fill.gold { background: linear-gradient(180deg, var(--gold-dark), var(--gold-2)); }
+.score-bar-fill.green { background: linear-gradient(180deg, var(--green), #52d68a); }
+.score-bar-lbl { font-size: 0.65rem; color: var(--text-3); text-align: center; }
+.score-bar-val { font-size: 0.7rem; font-weight: 700; color: var(--text-1); }
+
+/* Certificat */
+.certif-outer {
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--sh2);
+}
+
+.certif-top {
+  background: linear-gradient(130deg, var(--navy) 0%, var(--navy-3) 55%, #1a5fa8 100%);
+  padding: 2.8rem;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.certif-top::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(circle at 15% 85%, rgba(212,175,55,0.18) 0%, transparent 50%),
+                    radial-gradient(circle at 85% 15%, rgba(255,255,255,0.06) 0%, transparent 40%);
+}
+.certif-emblem {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  background: rgba(212,175,55,0.15);
+  border: 2px solid rgba(212,175,55,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem; color: var(--gold);
+  margin-bottom: 1.2rem; position: relative; z-index: 1;
+}
+.certif-top h2 { font-size: 1.4rem; color: #fff; position: relative; z-index: 1; }
+.certif-top p  { font-size: 0.85rem; color: rgba(255,255,255,0.55); margin-top: 0.4rem; position: relative; z-index: 1; }
+
+.certif-doc {
+  background: var(--white);
+  border: 4px solid var(--gold);
+  margin: 1.6rem;
+  border-radius: var(--r-lg);
+  padding: 2.4rem;
+  text-align: center;
+  position: relative;
+}
+.certif-doc::before,
+.certif-doc::after {
+  content: '❧';
+  font-size: 1.4rem;
+  color: var(--gold);
+  position: absolute;
+  opacity: 0.5;
+}
+.certif-doc::before { top: 12px; left: 18px; }
+.certif-doc::after  { bottom: 12px; right: 18px; transform: rotate(180deg); }
+
+.certif-org { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-3); margin-bottom: 0.4rem; }
+.certif-title { font-size: 1.1rem; color: var(--text-1); margin-bottom: 1.2rem; }
+.certif-name-line { width: 60px; height: 2px; background: var(--gold); margin: 0.8rem auto 0.5rem; border-radius: 2px; }
+.certif-for { font-size: 0.78rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.1em; }
+.certif-name { font-size: 2.2rem; color: var(--navy); margin: 4px 0; }
+.certif-course-label { font-size: 0.78rem; color: var(--text-3); margin: 1rem 0 0.2rem; }
+.certif-course { font-size: 1.15rem; font-weight: 700; color: var(--navy-3); }
+.certif-meta-row { display: flex; justify-content: center; gap: 2.5rem; margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px dashed rgba(212,175,55,0.4); }
+.certif-m { text-align: center; }
+.certif-m-val { font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+.certif-m-lbl { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-top: 2px; }
+.certif-seal {
+  width: 66px; height: 66px;
+  border: 3px solid var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; color: var(--gold);
+  margin: 1.4rem auto 0;
+  box-shadow: 0 0 0 6px rgba(212,175,55,0.1);
+}
+
+.certif-actions { display: flex; gap: 10px; justify-content: center; padding: 0 1.6rem 1.6rem; flex-wrap: wrap; }
+.btn-dl {
+  display: flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--navy);
+  font-family: 'Sora', sans-serif;
+  font-size: 0.83rem; font-weight: 700;
+  padding: 10px 22px;
+  border-radius: 50px; border: none; cursor: pointer;
+  transition: var(--tr);
+  box-shadow: 0 6px 20px rgba(212,175,55,0.3);
+}
+.btn-dl:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212,175,55,0.4); }
+.btn-share {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--white);
+  color: var(--text-1);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.83rem; font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border);
+  cursor: pointer; transition: var(--tr);
+}
+.btn-share:hover { border-color: #a0c0e8; background: var(--blue-light); color: var(--blue); }
+
+/* Locked certif */
+.certif-locked {
+  background: var(--white);
+  padding: 3rem;
+  border-radius: var(--r-xl);
+  border: 2px dashed var(--border);
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+}
+.cl-icon { width: 80px; height: 80px; border-radius: 50%; background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--text-3); }
+.cl-title { font-family: 'Sora', sans-serif; font-size: 1.2rem; color: var(--text-1); }
+.cl-desc { font-size: 0.88rem; color: var(--text-3); max-width: 340px; line-height: 1.6; }
+.cl-prog { width: 260px; }
+.cl-prog-bar { height: 8px; background: var(--border); border-radius: 30px; overflow: hidden; }
+.cl-prog-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dark), var(--gold)); border-radius: 30px; }
+.cl-prog-lbl { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-3); margin-top: 6px; }
+
+.demo-toggle {
+  font-size: 0.78rem; color: var(--text-3); cursor: pointer;
+  background: none; border: 1px dashed var(--border);
+  border-radius: 30px; padding: 6px 14px;
+  font-family: 'DM Sans', sans-serif; transition: var(--tr);
+}
+.demo-toggle:hover { color: var(--blue); border-color: var(--blue); }
+
+/* ═══════════════════════════════
+   BUTTONS global
+═══════════════════════════════ */
+.btn-prim {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--navy);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  padding: 9px 20px; border-radius: 50px;
+  border: none; cursor: pointer; transition: var(--tr);
+}
+.btn-prim:hover { background: var(--blue); transform: translateY(-1px); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: transparent;
+  color: var(--text-2);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  padding: 9px 18px; border-radius: 50px;
+  border: 1.5px solid var(--border);
+  cursor: pointer; transition: var(--tr);
+}
+.btn-ghost:hover { border-color: #a0c0e8; color: var(--blue); background: var(--blue-light); }
+
+/* ═══════════════════════════════
+   RESPONSIVE
+═══════════════════════════════ */
+@media (max-width: 1100px) {
+  .kpi-grid { grid-template-columns: repeat(2,1fr); }
+  .prog-overview { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 860px) {
+  .sidebar { width: 220px; }
+  .main { margin-left: 220px; }
+  .welcome-hero { flex-direction: column; }
+  .profile-hero { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 640px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .prog-overview { grid-template-columns: 1fr; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .page { padding: 1rem; }
+  .tb-search { display: none; }
+}
+
+@media print {
+  .sidebar, .topbar, .certif-actions, .certif-locked, .page:not(#page-prog) { display: none !important; }
+  .main { margin-left: 0; }
+  #page-prog { display: flex !important; }
+  body { background: white; }
+}
 </style>
 </head>
 <body>
 
-<!-- ======================== SIDEBAR ======================== -->
-<div class="layout" id="appLayout">
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-icon"><i class="fas fa-bolt"></i></div>
-      <span class="brand-text">Up<span>Skill</span></span>
+<!-- ═══════════════════════════════
+     SIDEBAR
+═══════════════════════════════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon"><i class="fas fa-graduation-cap"></i></div>
+    Up<span>Skill</span>
+  </div>
+
+  <!-- User -->
+  <div class="sb-user" onclick="showPage('profil')">
+    <div class="sb-avatar-wrap">
+      {% if user.apprenant.photo %}
+        <img class="sb-avatar" src="{{ user.apprenant.photo.url }}" alt="{{ user.get_full_name }}">
+      {% else %}
+        <img class="sb-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="{{ user.get_full_name }}">
+      {% endif %}
+      <div class="sb-online"></div>
+    </div>
+    <div>
+      <div class="sb-user-name">{{ user.first_name }} {{ user.last_name }}</div>
+      <div class="sb-user-role">{{ user.apprenant.entreprise }} · Apprenant Pro</div>
+    </div>
+    <i class="fas fa-chevron-right sb-user-chevron"></i>
+  </div>
+
+  <!-- Progression mini -->
+  <div class="sb-progress-wrap">
+    <div class="sb-progress-label">
+      <span>Progression globale</span>
+      <span>{{ progression_globale|default:68 }}%</span>
+    </div>
+    <div class="sb-prog-bar">
+      <div class="sb-prog-fill" style="width:{{ progression_globale|default:68 }}%"></div>
+    </div>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="sb-section-label">Navigation</div>
+    <a class="sb-item active" onclick="showPage('dashboard')">
+      <i class="fas fa-th-large"></i> Tableau de bord
+    </a>
+    <a class="sb-item" onclick="showPage('profil')">
+      <i class="fas fa-user-circle"></i> Mon profil
+    </a>
+    <a class="sb-item" onclick="showPage('formations')">
+      <i class="fas fa-play-circle"></i> Formations & Cours
+      {% if alertes_count > 0 %}
+        <span class="sb-badge">{{ alertes_count }}</span>
+      {% endif %}
+    </a>
+    <a class="sb-item" onclick="showPage('prog')">
+      <i class="fas fa-chart-line"></i> Progression & Certif
+    </a>
+
+    <div class="sb-section-label">Compte</div>
+    <a class="sb-item" href="{% url 'home' %}">
+      <i class="fas fa-home"></i> Accueil UpSkill
+    </a>
+    <a class="sb-item" href="{% url 'logout' %}">
+      <i class="fas fa-sign-out-alt"></i> Déconnexion
+    </a>
+  </nav>
+</aside>
+
+<!-- ═══════════════════════════════
+     MAIN
+═══════════════════════════════ -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="tb-left">
+      <div class="tb-breadcrumb">
+        <span>UpSkill</span>
+        <span class="tb-sep">›</span>
+        <strong id="topbar-label">Tableau de bord</strong>
+      </div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-search">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Rechercher un cours…" id="searchInput">
+      </div>
+      <div class="tb-btn">
+        <i class="fas fa-bell"></i>
+        {% if notifications_count > 0 %}
+          <span class="tb-notif-dot"></span>
+        {% endif %}
+      </div>
+      <div class="tb-btn"><i class="fas fa-cog"></i></div>
+      {% if user.apprenant.photo %}
+        <img class="tb-avatar" src="{{ user.apprenant.photo.url }}" alt="avatar">
+      {% else %}
+        <img class="tb-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="avatar">
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- ═══════════════════ PAGE: DASHBOARD ═══════════════════ -->
+  <div class="page active" id="page-dashboard">
+
+    <!-- Welcome hero avec donut -->
+    <div class="welcome-hero">
+      <div class="wh-text">
+        <h2>Bonjour, <span>{{ user.first_name }}</span> 👋</h2>
+        <p>Vous progressez bien ! Il vous reste <strong style="color:var(--gold-2)">{{ modules_restants|default:2 }}</strong> modules pour terminer votre formation et obtenir votre certification Qualiopi.</p>
+        <div class="wh-chips">
+          <div class="wh-chip"><i class="fas fa-fire"></i> {{ streak_jours|default:6 }} jours consécutifs</div>
+          <div class="wh-chip"><i class="fas fa-star"></i> Score moyen {{ score_moyen|default:88 }}%</div>
+          <div class="wh-chip"><i class="fas fa-calendar"></i> Fin : {{ date_fin_formation|default:"30 mai 2025" }}</div>
+        </div>
+      </div>
+      <div class="wh-action">
+        <div class="wh-ring">
+          <svg width="110" height="110" viewBox="0 0 110 110">
+            <defs>
+              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#a8871a"/>
+                <stop offset="100%" style="stop-color:#f0cc5a"/>
+              </linearGradient>
+            </defs>
+            <circle class="wh-ring-bg" cx="55" cy="55" r="49"/>
+            <circle class="wh-ring-fill" cx="55" cy="55" r="49" id="heroRing"/>
+          </svg>
+          <div class="wh-ring-center">
+            <div class="wh-ring-pct">{{ progression_globale|default:68 }}%</div>
+            <div class="wh-ring-lbl">Complété</div>
+          </div>
+        </div>
+        <button class="btn-play" onclick="showPage('formations')">
+          <i class="fas fa-play"></i> Continuer
+        </button>
+      </div>
     </div>
 
-    <nav class="sidebar-nav">
-      <div class="nav-label">Main</div>
-      <a href="#" class="nav-item active">
-        <i class="fas fa-th-large"></i>Dashboard
-      </a>
-      <a href="#" class="nav-item">
-        <i class="fas fa-graduation-cap"></i>My Formations
-        <span class="nav-badge">3</span>
-      </a>
-      <a href="#" class="nav-item">
-        <i class="fas fa-cubes"></i>Modules
-      </a>
-      <a href="#" class="nav-item">
-        <i class="fas fa-chart-line"></i>Progress
-      </a>
-
-      <div class="nav-label">Account</div>
-      <a href="#" class="nav-item">
-        <i class="fas fa-user-circle"></i>Profile
-      </a>
-      <a href="#" class="nav-item">
-        <i class="fas fa-certificate"></i>Certificates
-      </a>
-      <a href="#" class="nav-item">
-        <i class="fas fa-bell"></i>Notifications
-        <span class="nav-badge">5</span>
-      </a>
-      <a href="#" class="nav-item">
-        <i class="fas fa-cog"></i>Settings
-      </a>
-    </nav>
-
-    <div class="sidebar-footer">
-      <div class="sidebar-user">
-        <div class="sidebar-avatar">{{ client.nom|first|upper }}</div>
-        <div class="sidebar-user-info">
-          <div class="sidebar-user-name">{{ client.nom }}</div>
-          <div class="sidebar-user-role">Enrolled Learner</div>
+    <!-- KPI -->
+    <div class="kpi-grid">
+      <div class="kpi-card k-blue">
+        <div class="kpi-left">
+          <div class="kpi-label">Formation active</div>
+          <div class="kpi-val">{{ formations_actives|default:1 }}</div>
+          <div class="kpi-sub"><span class="up">↑</span> En cours d'exécution</div>
         </div>
-        <button class="sidebar-logout" title="Logout" onclick="window.location.href='/logout'">
-          <i class="fas fa-sign-out-alt"></i>
-        </button>
+        <div class="kpi-icon blue"><i class="fas fa-book-open"></i></div>
+      </div>
+      <div class="kpi-card k-gold">
+        <div class="kpi-left">
+          <div class="kpi-label">Score moyen</div>
+          <div class="kpi-val">{{ score_moyen|default:88 }}%</div>
+          <div class="kpi-sub"><span class="up">↑ {{ progression_score|default:4 }}pts</span> vs semaine passée</div>
+        </div>
+        <div class="kpi-icon gold"><i class="fas fa-star"></i></div>
+      </div>
+      <div class="kpi-card k-green">
+        <div class="kpi-left">
+          <div class="kpi-label">Modules terminés</div>
+          <div class="kpi-val">{{ modules_termines|default:5 }}/{{ modules_total|default:7 }}</div>
+          <div class="kpi-sub"><span class="up">{{ taux_completion|default:71 }}%</span> de complétion</div>
+        </div>
+        <div class="kpi-icon green"><i class="fas fa-check-circle"></i></div>
+      </div>
+      <div class="kpi-card k-red">
+        <div class="kpi-left">
+          <div class="kpi-label">Temps de formation</div>
+          <div class="kpi-val">{{ heures_effectuees|default:8 }}h{{ minutes_effectuees|default:40 }}</div>
+          <div class="kpi-sub"><span>~{{ heures_restantes|default:4 }}h</span> restantes</div>
+        </div>
+        <div class="kpi-icon red"><i class="fas fa-hourglass-half"></i></div>
       </div>
     </div>
-  </aside>
 
-  <!-- Backdrop -->
-  <div class="sidebar-backdrop" id="backdrop" onclick="toggleSidebar()"></div>
+    <!-- Activité + Sessions -->
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:1.4rem;">
 
-  <!-- ======================== MAIN ======================== -->
-  <main class="main">
-    <!-- TOPBAR -->
-    <header class="topbar">
-      <div style="display:flex;align-items:center;gap:16px">
-        <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-        <div class="topbar-left">
-          <span class="topbar-greeting">Good morning,</span>
-          <span class="topbar-title">Welcome back, <span>{{ client.nom }}</span> 👋</span>
-        </div>
-      </div>
-      <div class="topbar-right">
-        <div class="topbar-search">
-          <i class="fas fa-search"></i>
-          <input type="text" placeholder="Search formations…">
-        </div>
-        <button class="icon-btn" title="Notifications">
-          <i class="fas fa-bell"></i>
-          <span class="notif-dot"></span>
-        </button>
-        <button class="icon-btn" title="Messages">
-          <i class="fas fa-envelope"></i>
-        </button>
-        <button class="avatar-btn" title="Profile">{{ client.nom|first|upper }}</button>
-      </div>
-    </header>
-
-    <!-- PAGE CONTENT -->
-    <div class="content">
-
-      <!-- ===== STATS STRIP ===== -->
-      <div class="stats-strip">
-        <div class="stat-card">
-          <div class="stat-icon blue"><i class="fas fa-book-open"></i></div>
-          <div class="stat-info">
-            <div class="stat-label">Enrolled</div>
-            <div class="stat-value">{{ formations|length }}</div>
-            <div class="stat-sub">Active formations</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
-          <div class="stat-info">
-            <div class="stat-label">Completed</div>
-            <div class="stat-value">{{ completed_modules }}</div>
-            <div class="stat-sub">Modules done</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon amber"><i class="fas fa-clock"></i></div>
-          <div class="stat-info">
-            <div class="stat-label">Remaining</div>
-            <div class="stat-value">{{ remaining_modules }}</div>
-            <div class="stat-sub">Modules left</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon rose"><i class="fas fa-fire"></i></div>
-          <div class="stat-info">
-            <div class="stat-label">Progress</div>
-            <div class="stat-value">{{ client.progression }}%</div>
-            <div class="stat-sub">Global completion</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== ROW: PROFILE + PROGRESS ===== -->
-      <div class="grid-2">
-        <!-- PROFILE CARD -->
-        <div class="card profile-card">
-          <div class="card-header">
-            <span class="card-title"><i class="fas fa-id-card"></i>Learner Profile</span>
-            <a href="#" class="view-all"><i class="fas fa-edit"></i> Edit</a>
-          </div>
-          <div class="card-body">
-            <div class="profile-top">
-              <div class="profile-name-row">
-                <div class="label">Full Name</div>
-                <div class="name">{{ client.nom }}</div>
-              </div>
-            </div>
-            <div class="profile-avatar-wrap">
-              <div class="profile-avatar" style="position:relative">
-                {{ client.nom|first|upper }}
-                <span class="profile-online"></span>
-              </div>
-            </div>
-            <div class="profile-details">
-              <div class="profile-row">
-                <div class="profile-row-icon"><i class="fas fa-envelope"></i></div>
-                <div class="profile-row-info">
-                  <div class="profile-row-label">Email Address</div>
-                  <div class="profile-row-value">{{ client.email }}</div>
-                </div>
-              </div>
-              <div class="profile-row">
-                <div class="profile-row-icon"><i class="fas fa-phone"></i></div>
-                <div class="profile-row-info">
-                  <div class="profile-row-label">Phone Number</div>
-                  <div class="profile-row-value">{{ client.telephone }}</div>
-                </div>
-              </div>
-              <div class="profile-row">
-                <div class="profile-row-icon"><i class="fas fa-calendar-alt"></i></div>
-                <div class="profile-row-info">
-                  <div class="profile-row-label">Registration Date</div>
-                  <div class="profile-row-value">{{ client.date_inscription }}</div>
-                </div>
-              </div>
-              <div class="profile-row">
-                <div class="profile-row-icon"><i class="fas fa-graduation-cap"></i></div>
-                <div class="profile-row-info">
-                  <div class="profile-row-label">Enrolled Formations</div>
-                  <div class="profile-row-value">{{ formations|length }} Active Course(s)</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PROGRESS CARD -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title"><i class="fas fa-chart-pie"></i>Learning Progress</span>
-            <span style="font-size:12px;color:var(--slate-400)">Updated today</span>
-          </div>
-          <div class="progress-big">
-            <!-- Donut chart -->
-            <div class="donut-wrap">
-              <svg width="110" height="110" viewBox="0 0 110 110">
-                <circle cx="55" cy="55" r="44" fill="none" stroke="#f1f5f9" stroke-width="10"/>
-                <circle cx="55" cy="55" r="44" fill="none"
-                  stroke="url(#donutGrad)" stroke-width="10"
-                  stroke-dasharray="276 276" stroke-linecap="round"/>
-                <defs>
-                  <linearGradient id="donutGrad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#3b82f6"/>
-                    <stop offset="100%" stop-color="#0ea5e9"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div class="donut-center">
-                <span class="donut-pct" id="donutPct">0%</span>
-                <span class="donut-sub">done</span>
-              </div>
-            </div>
-            <div class="progress-meta">
-              <h3>Keep it up!</h3>
-              <p>You're making excellent progress. Stay consistent to reach your learning goals.</p>
-              <div class="progress-eta">
-                <i class="fas fa-flag-checkered"></i>
-                <span>Est. completion: <strong>{{ completion_date }}</strong></span>
-              </div>
-            </div>
-          </div>
-          <div class="progress-modules">
-            <div class="prog-module-item">
-              <div class="prog-module-icon done"><i class="fas fa-check"></i></div>
-              <div>
-                <div class="prog-module-num">{{ completed_modules }}</div>
-                <div class="prog-module-lbl">Completed Modules</div>
-              </div>
-            </div>
-            <div class="prog-module-item">
-              <div class="prog-module-icon rem"><i class="fas fa-hourglass-half"></i></div>
-              <div>
-                <div class="prog-module-num">{{ remaining_modules }}</div>
-                <div class="prog-module-lbl">Remaining Modules</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Skills breakdown -->
-          <div class="card-header" style="border-top:1px solid var(--slate-100)">
-            <span class="card-title" style="font-size:14px"><i class="fas fa-layer-group"></i>Skills Breakdown</span>
-          </div>
-          <div class="skill-bars">
-            {% for formation in formations %}
-            <div class="skill-bar-item">
-              <div class="skill-bar-header">
-                <span>{{ formation.titre }}</span>
-                <strong>{{ formation.progression|default:0 }}%</strong>
-              </div>
-              <div class="skill-bar-bg">
-                <div class="skill-bar-fill fill-blue" style="width:{{ formation.progression|default:0 }}%"></div>
-              </div>
-            </div>
-            {% empty %}
-            <div class="skill-bar-item">
-              <div class="skill-bar-header"><span>Web Development Fundamentals</span><strong>72%</strong></div>
-              <div class="skill-bar-bg"><div class="skill-bar-fill fill-blue" style="width:72%"></div></div>
-            </div>
-            <div class="skill-bar-item">
-              <div class="skill-bar-header"><span>Python & Data Science</span><strong>45%</strong></div>
-              <div class="skill-bar-bg"><div class="skill-bar-fill fill-green" style="width:45%"></div></div>
-            </div>
-            <div class="skill-bar-item">
-              <div class="skill-bar-header"><span>UI/UX Design Mastery</span><strong>88%</strong></div>
-              <div class="skill-bar-bg"><div class="skill-bar-fill fill-amber" style="width:88%"></div></div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== FORMATIONS ===== -->
+      <!-- Activité récente -->
       <div class="card">
-        <div class="card-header">
-          <span class="card-title"><i class="fas fa-graduation-cap"></i>Enrolled Formations</span>
-          <a href="#" class="view-all">View all <i class="fas fa-arrow-right"></i></a>
+        <div style="padding:1.4rem 1.6rem 0;" class="sec-hdr">
+          <h3><i class="fas fa-history"></i> Activité récente</h3>
+          <a class="sec-link">Tout voir</a>
         </div>
-        <div class="formations-grid">
-          {% for formation in formations %}
-          <div class="formation-card">
-            <div class="formation-banner"></div>
-            <div class="formation-body">
-              <div class="formation-meta-top">
-                <span class="formation-badge"><i class="fas fa-layer-group"></i> {{ formation.niveau }}</span>
-                <span class="cert-badge"><i class="fas fa-award"></i> Certificate</span>
+        <div class="timeline">
+          {% for activite in activites_recents|slice:":4" %}
+          <div class="tl-item">
+            <div class="tl-dot-col">
+              <div class="tl-dot {{ activite.type }}">
+                {% if activite.type == 'done' %}<i class="fas fa-check"></i>
+                {% elif activite.type == 'quiz' %}<i class="fas fa-clipboard-check"></i>
+                {% elif activite.type == 'play' %}<i class="fas fa-play"></i>
+                {% else %}<i class="fas fa-award"></i>{% endif %}
               </div>
-              <div class="formation-title">{{ formation.titre }}</div>
-              <div class="formation-desc">{{ formation.description }}</div>
-              <div class="formation-tags">
-                <span class="tag"><i class="fas fa-user-tie"></i>{{ formation.instructeur }}</span>
-                <span class="tag"><i class="fas fa-clock"></i>{{ formation.duree }}</span>
-                <span class="tag"><i class="fas fa-signal"></i>{{ formation.niveau }}</span>
-              </div>
-              <div class="formation-footer">
-                <div class="instructor-info">
-                  <div class="instructor-avatar">{{ formation.instructeur|first|upper }}</div>
-                  <div class="instructor-name">
-                    Instructor
-                    <strong>{{ formation.instructeur }}</strong>
-                  </div>
-                </div>
-                <button class="btn btn-primary btn-sm"><i class="fas fa-play"></i> Continue</button>
-              </div>
+              {% if not forloop.last %}<div class="tl-line"></div>{% endif %}
             </div>
-          </div>
-          {% empty %}
-          <!-- Demo formations (static fallback) -->
-          <div class="formation-card">
-            <div class="formation-banner"></div>
-            <div class="formation-body">
-              <div class="formation-meta-top">
-                <span class="formation-badge"><i class="fas fa-layer-group"></i> Intermediate</span>
-                <span class="cert-badge"><i class="fas fa-award"></i> Certificate</span>
-              </div>
-              <div class="formation-title">Full-Stack Web Development Bootcamp</div>
-              <div class="formation-desc">Master modern web technologies including HTML5, CSS3, JavaScript, React, Node.js and databases from scratch to advanced deployment.</div>
-              <div class="formation-tags">
-                <span class="tag"><i class="fas fa-user-tie"></i>Prof. Ahmed Benali</span>
-                <span class="tag"><i class="fas fa-clock"></i>48 hours</span>
-                <span class="tag"><i class="fas fa-signal"></i>Intermediate</span>
-              </div>
-              <div class="formation-footer">
-                <div class="instructor-info">
-                  <div class="instructor-avatar">A</div>
-                  <div class="instructor-name">Instructor<strong>Prof. Ahmed Benali</strong></div>
-                </div>
-                <button class="btn btn-primary btn-sm"><i class="fas fa-play"></i> Continue</button>
-              </div>
-            </div>
-          </div>
-          <div class="formation-card">
-            <div class="formation-banner" style="background:linear-gradient(90deg,#059669,#10b981)"></div>
-            <div class="formation-body">
-              <div class="formation-meta-top">
-                <span class="formation-badge" style="background:linear-gradient(135deg,#059669,#10b981)"><i class="fas fa-layer-group"></i> Beginner</span>
-                <span class="cert-badge"><i class="fas fa-award"></i> Certificate</span>
-              </div>
-              <div class="formation-title">Python & Data Science Fundamentals</div>
-              <div class="formation-desc">Learn Python programming, data analysis with Pandas, visualization with Matplotlib and machine learning basics with scikit-learn.</div>
-              <div class="formation-tags">
-                <span class="tag"><i class="fas fa-user-tie"></i>Dr. Sara Idrissi</span>
-                <span class="tag"><i class="fas fa-clock"></i>36 hours</span>
-                <span class="tag"><i class="fas fa-signal"></i>Beginner</span>
-              </div>
-              <div class="formation-footer">
-                <div class="instructor-info">
-                  <div class="instructor-avatar" style="background:linear-gradient(135deg,#059669,#10b981)">S</div>
-                  <div class="instructor-name">Instructor<strong>Dr. Sara Idrissi</strong></div>
-                </div>
-                <button class="btn btn-primary btn-sm" style="background:linear-gradient(135deg,#059669,#10b981)"><i class="fas fa-play"></i> Continue</button>
-              </div>
+            <div class="tl-content">
+              <div class="tl-title">{{ activite.titre }}</div>
+              <div class="tl-sub">{{ activite.description|safe }}</div>
+              <div class="tl-time">{{ activite.date|date:"d/m/Y H:i" }}</div>
             </div>
           </div>
           {% endfor %}
         </div>
       </div>
 
-      <!-- ===== MODULES ===== -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title"><i class="fas fa-cubes"></i>Course Modules</span>
-          <a href="#" class="view-all">View all <i class="fas fa-arrow-right"></i></a>
+      <!-- Prochaines sessions -->
+      <div class="card" style="display:flex;flex-direction:column;">
+        <div style="padding:1.4rem 1.6rem 0;" class="sec-hdr">
+          <h3><i class="fas fa-calendar-check"></i> Sessions</h3>
+          <a class="sec-link">Agenda →</a>
         </div>
-        <div class="modules-list" style="padding-top:16px">
-          {% for module in modules %}
-          <div class="module-item {% if module.completed %}completed{% endif %}">
-            <div class="module-num">{{ forloop.counter }}</div>
-            <div class="module-icon {% if module.type == 'video' %}video{% elif module.type == 'pdf' %}pdf{% else %}quiz{% endif %}">
-              <i class="fas {% if module.type == 'video' %}fa-play-circle{% elif module.type == 'pdf' %}fa-file-pdf{% else %}fa-question-circle{% endif %}"></i>
+
+        <!-- Mini calendrier -->
+        <div class="mini-cal">
+          <div class="mc-header">
+            <button class="mc-nav" onclick="previousMonth()">‹</button>
+            <div class="mc-month" id="currentMonth">Avril 2025</div>
+            <button class="mc-nav" onclick="nextMonth()">›</button>
+          </div>
+          <div class="mc-days-hdr">
+            <div class="mc-day-lbl">L</div><div class="mc-day-lbl">M</div>
+            <div class="mc-day-lbl">M</div><div class="mc-day-lbl">J</div>
+            <div class="mc-day-lbl">V</div><div class="mc-day-lbl">S</div>
+            <div class="mc-day-lbl">D</div>
+          </div>
+          <div class="mc-days" id="calDays"></div>
+        </div>
+
+        <div style="border-top:1px solid var(--border);flex:1;">
+          {% for session in prochaines_sessions|slice:":3" %}
+          <div class="session-item">
+            <div class="sess-date">
+              <div class="sess-day">{{ session.date|date:"d" }}</div>
+              <div class="sess-mon">{{ session.date|date:"M" }}</div>
             </div>
-            <div class="module-info">
-              <div class="module-title">{{ module.titre }}</div>
-              <div class="module-desc">{{ module.description }}</div>
+            <div class="sess-info">
+              <div class="sess-title">{{ session.titre }}</div>
+              <div class="sess-meta">
+                <span><i class="fas fa-clock"></i> {{ session.heure_debut|time:"H:i" }}–{{ session.heure_fin|time:"H:i" }}</span>
+                <span><i class="fas {{ session.type_icon }}"></i> {{ session.type }}</span>
+              </div>
             </div>
-            {% if module.completed %}
-            <span class="module-status status-done"><i class="fas fa-check-circle"></i> Completed</span>
-            <button class="btn-done"><i class="fas fa-check"></i> Done</button>
+            <div class="sess-tag {{ session.statut }}">{{ session.statut|title }}</div>
+          </div>
+          {% empty %}
+          <div style="padding:2rem;text-align:center;color:var(--text-3);">
+            <i class="fas fa-calendar-alt"></i>
+            <p>Aucune session prévue</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════ PAGE: PROFIL ═══════════════════ -->
+  <div class="page" id="page-profil">
+
+    <div class="profile-hero">
+      <div class="ph-avatar-wrap">
+        {% if user.apprenant.photo %}
+          <img class="ph-avatar" src="{{ user.apprenant.photo.url }}" alt="{{ user.get_full_name }}">
+        {% else %}
+          <img class="ph-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="{{ user.get_full_name }}">
+        {% endif %}
+        <div class="ph-badge"><i class="fas fa-star"></i></div>
+      </div>
+      <div class="ph-info">
+        <h1 class="ph-name">{{ user.get_full_name }}</h1>
+        <div class="ph-role"><i class="fas fa-certificate"></i> {{ user.apprenant.niveau|default:"Apprenant Avancé · Certifié" }}</div>
+        <div class="ph-stats">
+          <div class="ph-stat"><div class="ph-stat-val">{{ user.apprenant.nb_formations|default:1 }}</div><div class="ph-stat-lbl">Formation</div></div>
+          <div class="ph-stat"><div class="ph-stat-val">{{ user.apprenant.score_moyen|default:88 }}%</div><div class="ph-stat-lbl">Score moyen</div></div>
+          <div class="ph-stat"><div class="ph-stat-val">{{ user.apprenant.heures_formation|default:"8h40" }}</div><div class="ph-stat-lbl">Formation</div></div>
+          <div class="ph-stat"><div class="ph-stat-val">{{ user.apprenant.streak|default:6 }}🔥</div><div class="ph-stat-lbl">Jours streak</div></div>
+        </div>
+      </div>
+      <div class="ph-actions">
+        <button class="btn-edit" onclick="toggleEditMode()"><i class="fas fa-pen"></i> Modifier le profil</button>
+        <button class="btn-edit" onclick="window.print()"><i class="fas fa-download"></i> Exporter</button>
+      </div>
+    </div>
+
+    <!-- Formulaire de modification du profil -->
+    <form method="post" enctype="multipart/form-data" id="profileForm">
+      {% csrf_token %}
+      <div class="card" style="padding:1.6rem;">
+        <div class="sec-hdr"><h3><i class="fas fa-user"></i> Informations personnelles</h3></div>
+        <div class="profile-grid" style="margin-top:1.2rem;">
+          <div class="form-group">
+            <label class="form-label">Prénom</label>
+            <input class="form-input" type="text" name="first_name" value="{{ user.first_name }}" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nom</label>
+            <input class="form-input" type="text" name="last_name" value="{{ user.last_name }}" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email professionnel</label>
+            <input class="form-input" type="email" name="email" value="{{ user.email }}" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Téléphone</label>
+            <input class="form-input" type="tel" name="telephone" value="{{ user.apprenant.telephone|default:'' }}" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Entreprise</label>
+            <input class="form-input" type="text" name="entreprise" value="{{ user.apprenant.entreprise|default:'' }}" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Poste</label>
+            <input class="form-input" type="text" name="poste" value="{{ user.apprenant.poste|default:'' }}" disabled>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Bio professionnelle</label>
+            <textarea class="form-input" name="bio" rows="3" disabled style="resize:none;">{{ user.apprenant.bio|default:'' }}</textarea>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Photo de profil</label>
+            <input class="form-input" type="file" name="photo" accept="image/*" disabled>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:1.4rem;" id="profileButtons">
+          <button type="submit" class="btn-prim" style="display:none;"><i class="fas fa-save"></i> Sauvegarder</button>
+          <button type="button" class="btn-ghost" onclick="cancelEdit()" style="display:none;"><i class="fas fa-times"></i> Annuler</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Sécurité -->
+    <div class="card" style="padding:1.6rem;">
+      <div class="sec-hdr"><h3><i class="fas fa-shield-alt"></i> Sécurité du compte</h3></div>
+      <div class="profile-grid" style="margin-top:1.2rem;">
+        <div class="form-group">
+          <label class="form-label">Mot de passe actuel</label>
+          <input class="form-input" type="password" id="current_password" placeholder="••••••••">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nouveau mot de passe</label>
+          <input class="form-input" type="password" id="new_password" placeholder="Min. 8 caractères">
+        </div>
+      </div>
+      <div style="margin-top:1.2rem;">
+        <button class="btn-ghost" onclick="changePassword()"><i class="fas fa-key"></i> Mettre à jour le mot de passe</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════ PAGE: FORMATIONS ═══════════════════ -->
+  <div class="page" id="page-formations">
+
+    <div class="filter-bar">
+      <button class="filter-pill active" onclick="setFilter(this, 'all')">Toutes</button>
+      <button class="filter-pill" onclick="setFilter(this, 'ongoing')">En cours</button>
+      <button class="filter-pill" onclick="setFilter(this, 'done')">Terminées</button>
+      <button class="filter-pill" onclick="setFilter(this, 'upcoming')">À venir</button>
+    </div>
+
+    <!-- Grille de cours -->
+    <div class="courses-grid" id="coursesGrid">
+      {% for inscription in inscriptions %}
+      <div class="course-card" data-status="{{ inscription.statut }}">
+        <div class="cc-thumb">
+          <div class="cc-thumb-bg {{ inscription.couleur }}"><span>{{ inscription.icone|safe }}</span></div>
+          <div class="cc-status {{ inscription.statut }}">{{ inscription.statut_label }}</div>
+          <div class="cc-pct"><div class="cc-pct-fill" style="width:{{ inscription.progression }}%"></div></div>
+        </div>
+        <div class="cc-body">
+          <div class="cc-tag">{{ inscription.categorie }} · {{ inscription.certification }}</div>
+          <div class="cc-title">{{ inscription.formation.nom }}</div>
+          <div class="cc-desc">{{ inscription.formation.description|truncatechars:100 }}</div>
+          <div class="cc-meta">
+            <div class="cc-meta-i"><i class="fas fa-layer-group"></i> {{ inscription.formation.nb_modules }} modules</div>
+            <div class="cc-meta-i"><i class="fas fa-clock"></i> {{ inscription.formation.duree_totale }}h</div>
+            <div class="cc-meta-i"><i class="fas fa-chart-bar"></i> {{ inscription.progression }}%</div>
+          </div>
+          <div class="cc-trainer">
+            <img src="{{ inscription.formation.formateur.photo.url|default:'https://randomuser.me/api/portraits/men/32.jpg' }}" alt="{{ inscription.formation.formateur.nom }}">
+            <div>
+              <div class="cc-trainer-name">{{ inscription.formation.formateur.nom }}</div>
+              <div class="cc-trainer-role">{{ inscription.formation.formateur.specialite }}</div>
+            </div>
+            {% if inscription.statut == 'ongoing' %}
+              <button class="cc-trainer-btn" onclick="showModules({{ inscription.formation.id }})"><i class="fas fa-play"></i> Continuer</button>
+            {% elif inscription.statut == 'upcoming' %}
+              <button class="cc-trainer-btn" style="background:var(--text-3);cursor:not-allowed;" disabled><i class="fas fa-clock"></i> À venir</button>
             {% else %}
-            <span class="module-status status-pending"><i class="fas fa-clock"></i> In Progress</span>
-            <button class="btn-mark" onclick="markComplete(this)"><i class="fas fa-check"></i> Mark Done</button>
+              <button class="cc-trainer-btn" onclick="showModules({{ inscription.formation.id }})"><i class="fas fa-eye"></i> Revoir</button>
             {% endif %}
           </div>
-          {% empty %}
-          <!-- Demo modules -->
-          <div class="module-item completed">
-            <div class="module-num">1</div>
-            <div class="module-icon video"><i class="fas fa-play-circle"></i></div>
-            <div class="module-info">
-              <div class="module-title">Introduction to HTML5 & Semantic Markup</div>
-              <div class="module-desc">Video lesson • 45 min</div>
-            </div>
-            <span class="module-status status-done"><i class="fas fa-check-circle"></i> Completed</span>
-            <button class="btn-done"><i class="fas fa-check"></i> Done</button>
+        </div>
+      </div>
+      {% empty %}
+      <div class="card" style="padding:3rem;text-align:center;grid-column:1/-1;">
+        <i class="fas fa-book-open" style="font-size:3rem;color:var(--text-3);"></i>
+        <p style="margin-top:1rem;">Aucune formation inscrite pour le moment</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Modules accordion (dynamique) -->
+    <div class="card" id="modulesSection" style="display:none;">
+      <div style="padding:1.4rem 1.6rem 0;" class="sec-hdr">
+        <h3><i class="fas fa-list-ul"></i> Modules — <span id="moduleFormationName"></span></h3>
+        <a class="sec-link" onclick="hideModules()">Fermer ✕</a>
+      </div>
+      <div style="padding:1rem 1.4rem 1.4rem;">
+        <div class="module-list" id="moduleList"></div>
+        <div style="margin-top:1.2rem;display:flex;gap:10px;">
+          <button class="btn-prim" id="resumeModuleBtn"><i class="fas fa-play"></i> Reprendre le module en cours</button>
+          <button class="btn-ghost"><i class="fas fa-file-download"></i> Supports PDF</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════ PAGE: PROGRESSION & CERTIF ═══════════════════ -->
+  <div class="page" id="page-prog">
+
+    <!-- Vue d'ensemble donuts + détail -->
+    <div class="prog-overview">
+      <div class="card donut-wrap">
+        <div style="font-family:'Sora',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-2);margin-bottom:0.5rem;">Complétion globale</div>
+        <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
+          <defs>
+            <linearGradient id="progGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#a8871a"/>
+              <stop offset="100%" style="stop-color:#f0cc5a"/>
+            </linearGradient>
+          </defs>
+          <circle class="donut-bg" cx="60" cy="60" r="35"/>
+          <circle class="donut-fill" cx="60" cy="60" r="35" style="stroke-dashoffset:{{ donut_offset|default:76 }}"/>
+          <text class="donut-text" x="60" y="55" class="donut-pct-txt" style="font-family:Sora,sans-serif;font-size:14px;font-weight:800;fill:#0d1f30;text-anchor:middle;">{{ progression_globale|default:68 }}%</text>
+          <text x="60" y="68" style="font-size:7px;fill:#8aa4be;text-transform:uppercase;text-anchor:middle;font-family:DM Sans,sans-serif;">complété</text>
+        </svg>
+        <div style="text-align:center;">
+          <div style="font-family:'Sora',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text-1);">{{ modules_termines|default:5 }}/{{ modules_total|default:7 }}</div>
+          <div style="font-size:0.78rem;color:var(--text-3);">modules terminés</div>
+        </div>
+      </div>
+
+      <div class="card donut-wrap">
+        <div style="font-family:'Sora',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-2);margin-bottom:0.5rem;">Score moyen</div>
+        <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
+          <circle class="donut-bg" cx="60" cy="60" r="35"/>
+          <circle class="donut-fill" cx="60" cy="60" r="35" style="stroke:url(#progGrad);stroke-dashoffset:{{ score_offset|default:48 }}"/>
+          <text x="60" y="55" style="font-family:Sora,sans-serif;font-size:14px;font-weight:800;fill:#0d1f30;text-anchor:middle;">{{ score_moyen|default:88 }}%</text>
+          <text x="60" y="68" style="font-size:7px;fill:#8aa4be;text-transform:uppercase;text-anchor:middle;font-family:DM Sans,sans-serif;">score quiz</text>
+        </svg>
+        <div style="text-align:center;">
+          <div style="font-family:'Sora',sans-serif;font-size:1.5rem;font-weight:800;color:var(--green);">{{ niveau_performance|default:"Excellent" }}</div>
+          <div style="font-size:0.78rem;color:var(--text-3);">niveau de performance</div>
+        </div>
+      </div>
+
+      <div class="card donut-wrap">
+        <div style="font-family:'Sora',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-2);margin-bottom:0.5rem;">Temps investi</div>
+        <div style="font-family:'Sora',sans-serif;font-size:2.8rem;font-weight:800;color:var(--navy);line-height:1;">{{ heures_effectuees|default:8 }}h<span style="font-size:1.4rem;color:var(--gold-dark);">{{ minutes_effectuees|default:40 }}</span></div>
+        <div style="font-size:0.78rem;color:var(--text-3);margin-top:4px;">sur ~{{ duree_totale_formation|default:"12h30" }} totales</div>
+        <div style="width:100%;margin-top:10px;">
+          <div style="height:8px;background:var(--border);border-radius:30px;overflow:hidden;">
+            <div style="width:{{ pourcentage_temps|default:69 }}%;height:100%;background:linear-gradient(90deg,var(--gold-dark),var(--gold));border-radius:30px;"></div>
           </div>
-          <div class="module-item completed">
-            <div class="module-num">2</div>
-            <div class="module-icon pdf"><i class="fas fa-file-pdf"></i></div>
-            <div class="module-info">
-              <div class="module-title">CSS3 Advanced Layouts & Flexbox</div>
-              <div class="module-desc">PDF Guide + Exercise • 60 min</div>
-            </div>
-            <span class="module-status status-done"><i class="fas fa-check-circle"></i> Completed</span>
-            <button class="btn-done"><i class="fas fa-check"></i> Done</button>
-          </div>
-          <div class="module-item">
-            <div class="module-num">3</div>
-            <div class="module-icon video"><i class="fas fa-play-circle"></i></div>
-            <div class="module-info">
-              <div class="module-title">JavaScript ES6+ Fundamentals</div>
-              <div class="module-desc">Video lesson • 90 min</div>
-            </div>
-            <span class="module-status status-pending"><i class="fas fa-clock"></i> In Progress</span>
-            <button class="btn-mark" onclick="markComplete(this)"><i class="fas fa-check"></i> Mark Done</button>
-          </div>
-          <div class="module-item">
-            <div class="module-num">4</div>
-            <div class="module-icon pdf"><i class="fas fa-file-pdf"></i></div>
-            <div class="module-info">
-              <div class="module-title">React.js Components & Hooks Deep Dive</div>
-              <div class="module-desc">PDF + Video • 2h 15min</div>
-            </div>
-            <span class="module-status status-locked"><i class="fas fa-lock"></i> Locked</span>
-            <button class="btn-mark" style="opacity:.4;cursor:not-allowed"><i class="fas fa-lock"></i> Locked</button>
-          </div>
-          <div class="module-item">
-            <div class="module-num">5</div>
-            <div class="module-icon" style="background:rgba(139,92,246,.1);color:#7c3aed"><i class="fas fa-question-circle"></i></div>
-            <div class="module-info">
-              <div class="module-title">Final Assessment Quiz</div>
-              <div class="module-desc">30 questions • 45 min</div>
-            </div>
-            <span class="module-status status-locked"><i class="fas fa-lock"></i> Locked</span>
-            <button class="btn-mark" style="opacity:.4;cursor:not-allowed"><i class="fas fa-lock"></i> Locked</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barres par module -->
+    <div class="card">
+      <div style="padding:1.4rem 1.6rem 0;" class="sec-hdr">
+        <h3><i class="fas fa-tasks"></i> Progression par module</h3>
+        <span style="font-size:0.78rem;color:var(--text-3);">{{ formation_active.nom|default:"Management & Leadership" }}</span>
+      </div>
+      <div class="prog-detail">
+        {% for module in modules_progression %}
+        <div class="prog-row">
+          <div class="prog-row-label">{{ module.titre }}</div>
+          <div class="prog-bar-wrap"><div class="prog-bar-fill" style="width:{{ module.progression }}%"></div></div>
+          <div class="prog-row-val">{{ module.progression }}%</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Scores + Certif -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;">
+
+      <!-- Historique scores -->
+      <div class="card score-chart">
+        <div class="sec-hdr" style="margin-bottom:0;">
+          <h3><i class="fas fa-chart-bar"></i> Scores par module</h3>
+        </div>
+        <div class="score-bars">
+          {% for module in modules_scores %}
+          <div class="score-bar-wrap">
+            <div class="score-bar-val">{{ module.score|default:"—" }}</div>
+            <div class="score-bar-fill {{ module.couleur }}" style="height:{{ module.hauteur }}px"></div>
+            <div class="score-bar-lbl">{{ module.numero }}</div>
           </div>
           {% endfor %}
         </div>
+        <div style="font-size:0.75rem;color:var(--text-3);text-align:center;">Moyenne actuelle : <strong style="color:var(--gold-dark)">{{ score_moyen|default:88 }}%</strong> · Minimum requis : 70%</div>
       </div>
 
-      <!-- ===== CERTIFICATE ===== -->
-      {% with remaining=100|add:"-"|add:client.progression %}
-      {% if client.progression >= 100 %}
-      <div class="cert-section">
-        <div class="cert-inner">
-          <div class="cert-icon-wrap unlocked"><i class="fas fa-trophy"></i></div>
-          <div class="cert-content">
-            <div class="cert-tag"><i class="fas fa-star"></i> Achievement Unlocked</div>
-            <div class="cert-title">Congratulations, {{ client.nom }}!</div>
-            <p class="cert-text">You've successfully completed all modules. Your certificate of completion is now available for download.</p>
+      <!-- Certificat -->
+      <div>
+        {% if certificat_debloque %}
+        <!-- Certificat débloqué -->
+        <div class="certif-outer">
+          <div class="certif-top">
+            <div class="certif-emblem"><i class="fas fa-award"></i></div>
+            <h2>Certificat officiel</h2>
+            <p>UpSkill · Formation certifiée Qualiopi</p>
           </div>
-          <div class="cert-actions">
-            <button class="btn-cert download"><i class="fas fa-download"></i> Download Certificate</button>
-            <button class="btn-cert" style="background:rgba(255,255,255,.07);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.1)"><i class="fas fa-share-alt"></i> Share</button>
-          </div>
-        </div>
-      </div>
-      {% else %}
-      <div class="cert-section">
-        <div class="cert-inner">
-          <div class="cert-icon-wrap locked"><i class="fas fa-certificate"></i></div>
-          <div class="cert-content">
-            <div class="cert-tag"><i class="fas fa-lock"></i> Certificate</div>
-            <div class="cert-title">Certificate of Completion</div>
-            <p class="cert-text">Complete all course modules to unlock your official certificate of completion. You're making great progress!</p>
-            <div class="cert-progress-wrap">
-              <div class="cert-progress-label">
-                <span>Overall Progress</span>
-                <strong>{{ client.progression }}% / 100%</strong>
+          <div class="certif-doc">
+            <div class="certif-org">UpSkill — Formation Professionnelle Certifiée</div>
+            <div class="certif-title">atteste que</div>
+            <div class="certif-name-line"></div>
+            <div class="certif-for">{{ user.get_gender_display|default:"Madame" }}</div>
+            <div class="certif-name">{{ user.get_full_name }}</div>
+            <div class="certif-course-label">a complété avec succès la formation</div>
+            <div class="certif-course">{{ formation_active.nom|default:"Management & Leadership" }}</div>
+            <div class="certif-meta-row">
+              <div class="certif-m">
+                <div class="certif-m-val">{{ score_final|default:91 }}%</div>
+                <div class="certif-m-lbl">Score final</div>
               </div>
-              <div class="cert-bar-bg">
-                <div class="cert-bar-fill" id="certBar" style="width:{{ client.progression }}%"></div>
+              <div class="certif-m">
+                <div class="certif-m-val">{{ duree_totale_formation|default:"21h" }}</div>
+                <div class="certif-m-lbl">Durée totale</div>
+              </div>
+              <div class="certif-m">
+                <div class="certif-m-val">{{ date_certificat|date:"d/m/Y"|default:"30/05/25" }}</div>
+                <div class="certif-m-lbl">Date d'obtention</div>
               </div>
             </div>
+            <div class="certif-seal"><i class="fas fa-check"></i></div>
           </div>
-          <div class="cert-actions">
-            <button class="btn-cert locked"><i class="fas fa-lock"></i> Locked</button>
-            <div class="cert-note">{{ 100|add:"-"|add:client.progression }}% remaining to unlock</div>
+          <div class="certif-actions">
+            <button class="btn-dl" onclick="downloadCertificate()"><i class="fas fa-download"></i> Télécharger PDF</button>
+            <button class="btn-share" onclick="shareOnLinkedIn()"><i class="fab fa-linkedin"></i> Partager LinkedIn</button>
           </div>
         </div>
+        {% else %}
+        <!-- Certificat verrouillé -->
+        <div class="certif-locked">
+          <div class="cl-icon"><i class="fas fa-certificate"></i></div>
+          <div class="cl-title">Certificat Qualiopi</div>
+          <div class="cl-desc">Terminez les modules restants et obtenez un score ≥ 70% à l'évaluation finale pour débloquer votre certificat officiel.</div>
+          <div class="cl-prog">
+            <div class="cl-prog-bar"><div class="cl-prog-fill" style="width:{{ progression_globale|default:68 }}%"></div></div>
+            <div class="cl-prog-lbl"><span>Progression</span><span>{{ progression_globale|default:68 }}% — {{ modules_restants|default:2 }} modules restants</span></div>
+          </div>
+          <button class="btn-ghost" onclick="showPage('formations')"><i class="fas fa-play"></i> Continuer la formation</button>
+        </div>
+        {% endif %}
       </div>
-      {% endif %}
-      {% endwith %}
+    </div>
 
-    </div><!-- /content -->
-  </main>
-</div><!-- /layout -->
+  </div>
+
+</div><!-- /main -->
 
 <script>
-// ---- Sidebar toggle (mobile) ----
-function toggleSidebar(){
-  const sb = document.getElementById('sidebar');
-  const bd = document.getElementById('backdrop');
-  sb.classList.toggle('open');
-  bd.classList.toggle('visible');
+// Configuration CSRF pour Django
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+// ── Navigation ──────────────────────────────────
+const pageMap = {
+  dashboard:   'Tableau de bord',
+  profil:      'Mon profil',
+  formations:  'Formations & Cours',
+  prog:        'Progression & Certification'
+};
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('topbar-label').textContent = pageMap[id] || '';
+  document.querySelectorAll('.sb-item').forEach(el => {
+    if (el.getAttribute('onclick') && el.getAttribute('onclick').includes("'" + id + "'")) {
+      el.classList.add('active');
+    }
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ---- Donut counter animation ----
-(function(){
-  const el = document.getElementById('donutPct');
-  // Read from Django template variable; fallback to 72 for demo
-  const target = parseInt("{{ client.progression|default:72 }}") || 72;
-  let current = 0;
-  const step = () => {
-    if(current < target){ current++; el.textContent = current + '%'; requestAnimationFrame(step); }
-  };
-  requestAnimationFrame(step);
-
-  // Animate donut stroke
-  const circle = document.querySelector('circle[stroke="url(#donutGrad)"]');
-  if(circle){
-    const circumference = 2 * Math.PI * 44; // r=44 -> circumference = 276.46
-    const dashValue = (target / 100) * circumference;
-    circle.style.strokeDasharray = `${dashValue} ${circumference}`;
-    circle.style.strokeDashoffset = '0';
-  }
-})();
-
-// ---- Mark module as complete ----
-function markComplete(btn){
-  const item = btn.closest('.module-item');
-  item.classList.add('completed');
-  item.querySelector('.module-num').style.cssText = 'background:rgba(16,185,129,.15);color:#10b981';
-  const statusSpan = item.querySelector('.module-status');
-  if(statusSpan) {
-    statusSpan.className = 'module-status status-done';
-    statusSpan.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
-  }
-  btn.className = 'btn-done';
-  btn.innerHTML = '<i class="fas fa-check"></i> Done';
+// ── Filter pills ─────────────────────────────────
+function setFilter(el, filter) {
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  
+  const courses = document.querySelectorAll('.course-card');
+  courses.forEach(course => {
+    if (filter === 'all') {
+      course.style.display = '';
+    } else {
+      const status = course.getAttribute('data-status');
+      if (status === filter) {
+        course.style.display = '';
+      } else {
+        course.style.display = 'none';
+      }
+    }
+  });
 }
 
-// ---- Skill bars animation ----
-document.querySelectorAll('.skill-bar-fill,.cert-bar-fill').forEach(bar => {
-  const w = bar.style.width;
-  bar.style.width = '0';
-  setTimeout(() => { bar.style.width = w; }, 300);
+// ── Modules accordion ────────────────────────────
+function showModules(formationId) {
+  const s = document.getElementById('modulesSection');
+  s.style.display = 'block';
+  
+  // Ici vous feriez un appel AJAX pour charger les modules
+  // Pour l'exemple, on simule
+  document.getElementById('moduleFormationName').textContent = 'Management & Leadership';
+  
+  s.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function hideModules() {
+  document.getElementById('modulesSection').style.display = 'none';
+}
+
+// ── Profile edit mode ────────────────────────────
+function toggleEditMode() {
+  const inputs = document.querySelectorAll('#profileForm .form-input');
+  const saveBtn = document.querySelector('#profileButtons .btn-prim');
+  const cancelBtn = document.querySelector('#profileButtons .btn-ghost');
+  
+  inputs.forEach(input => {
+    input.disabled = !input.disabled;
+  });
+  
+  if (saveBtn.style.display === 'none') {
+    saveBtn.style.display = 'inline-flex';
+    cancelBtn.style.display = 'inline-flex';
+  } else {
+    saveBtn.style.display = 'none';
+    cancelBtn.style.display = 'none';
+  }
+}
+
+function cancelEdit() {
+  location.reload();
+}
+
+// ── Change password ──────────────────────────────
+function changePassword() {
+  const currentPwd = document.getElementById('current_password').value;
+  const newPwd = document.getElementById('new_password').value;
+  
+  if (!currentPwd || !newPwd) {
+    alert('Veuillez remplir tous les champs');
+    return;
+  }
+  
+  if (newPwd.length < 8) {
+    alert('Le nouveau mot de passe doit contenir au moins 8 caractères');
+    return;
+  }
+  
+  // Appel AJAX vers l'API Django pour changer le mot de passe
+  fetch('/api/change-password/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrftoken
+    },
+    body: JSON.stringify({
+      current_password: currentPwd,
+      new_password: newPwd
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      alert('Mot de passe modifié avec succès');
+      document.getElementById('current_password').value = '';
+      document.getElementById('new_password').value = '';
+    } else {
+      alert(data.error || 'Erreur lors du changement de mot de passe');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Une erreur est survenue');
+  });
+}
+
+// ── Certificate actions ──────────────────────────
+function downloadCertificate() {
+  window.print();
+}
+
+function shareOnLinkedIn() {
+  const url = encodeURIComponent(window.location.href);
+  const title = encodeURIComponent('Mon certificat UpSkill');
+  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}`, '_blank');
+}
+
+// ── Mini Calendrier dynamique ────────────────────
+let currentDate = new Date();
+const eventDays = new Set([12,15,18,22,28]);
+
+function buildCalendar() {
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const startDay = firstDay.getDay() || 7;
+  const daysInMonth = lastDay.getDate();
+  const today = new Date();
+  const isCurrentMonth = today.getMonth() === month && today.getFullYear() === year;
+  const currentDay = today.getDate();
+  
+  const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+  document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+  
+  const grid = document.getElementById('calDays');
+  grid.innerHTML = '';
+  
+  // empty cells
+  for (let i = 1; i < startDay; i++) {
+    const d = document.createElement('div');
+    d.className = 'mc-day empty';
+    grid.appendChild(d);
+  }
+  
+  for (let d = 1; d <= daysInMonth; d++) {
+    const el = document.createElement('div');
+    let cls = 'mc-day';
+    if (isCurrentMonth && d === currentDay) cls += ' today';
+    if (eventDays.has(d)) cls += ' has-event';
+    el.className = cls;
+    el.textContent = d;
+    grid.appendChild(el);
+  }
+}
+
+function previousMonth() {
+  currentDate.setMonth(currentDate.getMonth() - 1);
+  buildCalendar();
+}
+
+function nextMonth() {
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  buildCalendar();
+}
+
+// ── Search functionality ─────────────────────────
+document.getElementById('searchInput')?.addEventListener('input', function(e) {
+  const searchTerm = e.target.value.toLowerCase();
+  const courses = document.querySelectorAll('.course-card');
+  
+  courses.forEach(course => {
+    const title = course.querySelector('.cc-title')?.textContent.toLowerCase() || '';
+    const desc = course.querySelector('.cc-desc')?.textContent.toLowerCase() || '';
+    if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+      course.style.display = '';
+    } else {
+      course.style.display = 'none';
+    }
+  });
+});
+
+// ── Animate progress bars on load ────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Hero ring
+  const heroRing = document.getElementById('heroRing');
+  if (heroRing) {
+    const progression = {{ progression_globale|default:68 }};
+    const circumference = 308;
+    const offset = circumference - (circumference * progression / 100);
+    heroRing.style.strokeDashoffset = circumference;
+    setTimeout(() => { heroRing.style.strokeDashoffset = offset; }, 400);
+  }
+  
+  // Animate all progress bars
+  document.querySelectorAll('.prog-bar-fill, .sb-prog-fill, .cc-pct-fill, .cl-prog-fill').forEach(bar => {
+    const target = bar.style.width;
+    bar.style.width = '0%';
+    setTimeout(() => { bar.style.width = target; }, 300);
+  });
+  
+  // Build calendar
+  buildCalendar();
 });
 </script>
 </body>
