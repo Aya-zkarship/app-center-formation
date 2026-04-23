@@ -4,20 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UpSkill · formation professionnelle certifiée</title>
-  <!-- Google Fonts & Font Awesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Leaflet (carte interactive) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
-    /* ===== VARIABLES THEME CORPORATE BLEU PROFESSIONNEL ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -27,18 +20,10 @@
       scroll-behavior: smooth;
     }
 
-    h1, h2, h3 {
-      font-weight: 600;
-      letter-spacing: -0.02em;
-    }
+    h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; }
 
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
 
-    /* Palette bleu corporate renforcée */
     :root {
       --bleu-principal: #0a2c4b;
       --bleu-secondaire: #1f4e79;
@@ -51,481 +36,222 @@
       --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* ===== NAVBAR DYNAMIQUE ===== */
+    /* ===== NAVBAR ===== */
     .navbar {
-      position: fixed;
-      top: 0;
-      width: 100%;
+      position: fixed; top: 0; width: 100%;
       background: var(--bleu-principal);
       box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-      z-index: 1000;
-      padding: 0.8rem 0;
+      z-index: 1000; padding: 0.8rem 0;
       transition: box-shadow 0.3s;
     }
+    .navbar.scrolled { box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; }
 
-    .navbar.scrolled {
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-    }
+    .logo { display: flex; align-items: center; gap: 0.6rem; font-size: 1.7rem; font-weight: 700; color: white; }
+    .logo i { color: var(--or); font-size: 2rem; }
 
-    .navbar .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 1.7rem;
-      font-weight: 700;
-      color: white;
-    }
-
-    .logo i {
-      color: var(--or);
-      font-size: 2rem;
-    }
-
-    .nav-menu {
-      display: flex;
-      gap: 2.2rem;
-      align-items: center;
-      list-style: none;
-    }
-
+    .nav-menu { display: flex; gap: 2.2rem; align-items: center; list-style: none; }
     .nav-menu a {
-      text-decoration: none;
-      font-weight: 500;
-      color: rgba(255,255,255,0.9);
-      transition: var(--transition);
-      font-size: 1rem;
-      position: relative;
-      padding: 0.3rem 0;
-      cursor: pointer;
+      text-decoration: none; font-weight: 500; color: rgba(255,255,255,0.9);
+      transition: var(--transition); font-size: 1rem;
+      position: relative; padding: 0.3rem 0; cursor: pointer;
     }
-
     .nav-menu a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background: var(--or);
-      transition: width 0.2s;
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0%; height: 2px; background: var(--or); transition: width 0.2s;
     }
-
-    .nav-menu a:hover {
-      color: white;
-    }
-
-    .nav-menu a:hover::after {
-      width: 100%;
-    }
-
-    .nav-menu a.active {
-      color: var(--or);
-      font-weight: 600;
-    }
-
-    .nav-menu a.active::after {
-      width: 100%;
-      background: var(--or);
-    }
+    .nav-menu a:hover { color: white; }
+    .nav-menu a:hover::after { width: 100%; }
+    .nav-menu a.active { color: var(--or); font-weight: 600; }
+    .nav-menu a.active::after { width: 100%; background: var(--or); }
 
     .btn-login {
-      background: transparent;
-      border: 1.5px solid var(--or);
-      padding: 0.5rem 1.4rem;
-      border-radius: 50px;
-      font-weight: 600;
-      color: white;
-      transition: var(--transition);
-      cursor: pointer;
+      background: transparent; border: 1.5px solid var(--or);
+      padding: 0.5rem 1.4rem; border-radius: 50px;
+      font-weight: 600; color: white; transition: var(--transition); cursor: pointer;
     }
-
     .btn-login:hover {
-      background: var(--or);
-      color: var(--bleu-principal);
-      transform: scale(1.02);
-      box-shadow: 0 4px 12px rgba(212,175,55,0.3);
+      background: var(--or); color: var(--bleu-principal);
+      transform: scale(1.02); box-shadow: 0 4px 12px rgba(212,175,55,0.3);
     }
 
-    /* ===== BOUTONS CTA ===== */
+    /* ===== CTA ===== */
     .btn-cta {
-      background-color: var(--or);
-      color: var(--bleu-principal);
-      font-weight: 600;
-      padding: 0.9rem 2.2rem;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 8px 18px -8px rgba(212,175,55,0.5);
-      text-decoration: none;
-      display: inline-block;
+      background-color: var(--or); color: var(--bleu-principal);
+      font-weight: 600; padding: 0.9rem 2.2rem;
+      border-radius: 50px; border: none; cursor: pointer;
+      transition: var(--transition); box-shadow: 0 8px 18px -8px rgba(212,175,55,0.5);
+      text-decoration: none; display: inline-block;
     }
-
-    .btn-cta i {
-      margin-left: 0.4rem;
-      transition: transform 0.2s;
-    }
-
-    .btn-cta:hover {
-      background-color: #c6a229;
-      transform: translateY(-2px);
-      box-shadow: 0 16px 28px -8px #b8961c;
-    }
-
-    .btn-cta:hover i {
-      transform: translateX(4px);
-    }
+    .btn-cta i { margin-left: 0.4rem; transition: transform 0.2s; }
+    .btn-cta:hover { background-color: #c6a229; transform: translateY(-2px); box-shadow: 0 16px 28px -8px #b8961c; }
+    .btn-cta:hover i { transform: translateX(4px); }
 
     /* ===== SECTIONS ===== */
-    section {
-      padding: 5rem 0;
-    }
-
+    section { padding: 5rem 0; }
     .section-title {
-      font-size: 2.3rem;
-      margin-bottom: 1rem;
-      color: var(--bleu-principal);
-      position: relative;
-      display: inline-block;
+      font-size: 2.3rem; margin-bottom: 1rem;
+      color: var(--bleu-principal); position: relative; display: inline-block;
     }
-
     .section-title:after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 4px;
-      background: var(--or);
-      margin-top: 0.5rem;
-      border-radius: 2px;
+      content: ''; display: block; width: 60px; height: 4px;
+      background: var(--or); margin-top: 0.5rem; border-radius: 2px;
     }
 
-    /* Hero section */
+    /* ===== HERO ===== */
     .hero {
       padding-top: 8rem;
       background: linear-gradient(135deg, #0a2c4b 0%, #1f4e79 70%, #eaf3ff 100%);
       color: white;
     }
-
-    .hero h1 {
-      font-size: 3.2rem;
-      line-height: 1.2;
-      color: white;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: rgba(255,255,255,0.9);
-      margin-bottom: 2rem;
-    }
-
-    .hero .btn-cta {
-      background: white;
-      color: var(--bleu-principal);
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-    }
-
+    .hero h1 { font-size: 3.2rem; line-height: 1.2; color: white; margin-bottom: 1.5rem; }
+    .hero p { font-size: 1.2rem; color: rgba(255,255,255,0.9); margin-bottom: 2rem; }
+    .hero .btn-cta { background: white; color: var(--bleu-principal); }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
     .hero-media {
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-      aspect-ratio: 16 / 9;
-      background: #000;
+      border-radius: 28px; overflow: hidden;
+      box-shadow: var(--shadow-lg); aspect-ratio: 16 / 9; background: #000;
     }
+    .hero-media iframe { width: 100%; height: 100%; border: 0; }
 
-    .hero-media iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    /* ===== PRÉSENTATION (horizontale) ===== */
-    .presentation-cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      margin-top: 2.5rem;
-    }
-
+    /* ===== PRÉSENTATION ===== */
+    .presentation-cards { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2.5rem; }
     .pres-card {
-      background: white;
-      padding: 2rem;
-      border-radius: 24px;
-      box-shadow: var(--shadow-sm);
-      flex: 1 1 220px;
-      border: 1px solid rgba(212,175,55,0.2);
-      transition: var(--transition);
+      background: white; padding: 2rem; border-radius: 24px;
+      box-shadow: var(--shadow-sm); flex: 1 1 220px;
+      border: 1px solid rgba(212,175,55,0.2); transition: var(--transition);
     }
+    .pres-card:hover { transform: translateY(-8px); border-color: var(--or); box-shadow: var(--shadow-lg); }
+    .pres-card i { font-size: 2.4rem; color: var(--or); margin-bottom: 1.2rem; }
 
-    .pres-card:hover {
-      transform: translateY(-8px);
-      border-color: var(--or);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .pres-card i {
-      font-size: 2.4rem;
-      color: var(--or);
-      margin-bottom: 1.2rem;
-    }
-
-    /* ===== FORMATIONS (grille dynamique) ===== */
+    /* ===== FORMATIONS ===== */
     .formation-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-top: 2.5rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem; margin-top: 2.5rem;
     }
-
     .card {
-      background: white;
-      border-radius: 24px;
-      padding: 1.8rem;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-      border: 1px solid #ecf3fa;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
+      background: white; border-radius: 24px; padding: 1.8rem;
+      box-shadow: var(--shadow-sm); transition: var(--transition);
+      border: 1px solid #ecf3fa; cursor: pointer;
+      display: flex; flex-direction: column; height: 100%;
     }
-
-    .card:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-6px);
-    }
-
-    .card h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--bleu-principal);
-    }
-
-    .card p {
-      margin-bottom: 1rem;
-      flex-grow: 1;
-    }
+    .card:hover { box-shadow: var(--shadow-lg); transform: translateY(-6px); }
+    .card h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--bleu-principal); }
+    .card p { margin-bottom: 1rem; flex-grow: 1; }
 
     .badge {
-      background: #eaf3e8;
-      color: #2d6a4f;
-      font-weight: 500;
-      font-size: 0.8rem;
-      padding: 0.3rem 1rem;
-      border-radius: 30px;
-      display: inline-block;
-      margin-right: 0.5rem;
-      margin-top: 0.5rem;
+      background: #eaf3e8; color: #2d6a4f;
+      font-weight: 500; font-size: 0.8rem;
+      padding: 0.3rem 1rem; border-radius: 30px;
+      display: inline-block; margin-right: 0.5rem; margin-top: 0.5rem;
     }
-
     .certif-stamp {
-      color: var(--or);
-      font-weight: 600;
-      margin-top: 1rem;
-      border-top: 1px dashed rgba(212,175,55,0.4);
-      padding-top: 1rem;
+      color: var(--or); font-weight: 600; margin-top: 1rem;
+      border-top: 1px dashed rgba(212,175,55,0.4); padding-top: 1rem;
     }
+    .certif-stamp i { margin-right: 0.4rem; }
 
-    .certif-stamp i {
-      margin-right: 0.4rem;
+    /* ===== TRAINER PROFILE (NOUVEAU) ===== */
+    .trainer-row {
+      display: flex; align-items: center; gap: 0.8rem;
+      border-top: 1px solid #ecf3fa;
+      padding-top: 1rem; margin-top: 0.8rem;
     }
-
-    /* ===== CARTE INTERACTIVE ===== */
-    .map-stats {
-      background: var(--bleu-clair);
-      border-radius: 40px;
-      padding: 2.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    #map {
-      flex: 2;
-      min-width: 280px;
-      height: 300px;
-      border-radius: 40px;
-      box-shadow: var(--shadow-sm);
-      border: 2px solid white;
-      z-index: 1;
-    }
-
-    .stats {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .stat-item {
-      background: white;
-      padding: 1.4rem;
-      border-radius: 30px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-      transition: var(--transition);
-    }
-
-    .stat-item:hover {
-      transform: translateX(6px);
-      box-shadow: 0 8px 20px rgba(212,175,55,0.15);
-    }
-
-    .stat-number {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--or);
-      display: inline-block;
-    }
-
-    /* ===== AVIS (grille horizontale) ===== */
-    .avis-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin: 2.5rem 0;
-    }
-
-    .avis-card {
-      background: white;
-      border-radius: 30px;
-      padding: 2rem;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-    }
-
-    .avis-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .avatar {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin: 1.2rem 0 0.8rem;
-    }
-
-    .avatar img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
+    .trainer-avatar {
+      width: 46px; height: 46px; border-radius: 50%;
       object-fit: cover;
+      border: 2px solid var(--bleu-clair);
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(10,44,75,0.12);
+    }
+    .trainer-info { display: flex; flex-direction: column; gap: 1px; }
+    .trainer-label {
+      font-size: 0.7rem; color: #6b8ab5;
+      text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;
+    }
+    .trainer-name {
+      font-size: 0.92rem; font-weight: 600; color: var(--bleu-principal);
+    }
+    .trainer-title {
+      font-size: 0.78rem; color: #7a94b0;
     }
 
-    .stars {
-      color: var(--or);
-      font-weight: 600;
+    /* ===== CARTE + STATS ===== */
+    .map-stats {
+      background: var(--bleu-clair); border-radius: 40px; padding: 2.5rem;
+      display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;
     }
+    #map {
+      flex: 2; min-width: 280px; height: 300px;
+      border-radius: 40px; box-shadow: var(--shadow-sm);
+      border: 2px solid white; z-index: 1;
+    }
+    .stats { flex: 1; display: flex; flex-direction: column; gap: 1.5rem; }
+    .stat-item {
+      background: white; padding: 1.4rem; border-radius: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.02); transition: var(--transition);
+    }
+    .stat-item:hover { transform: translateX(6px); box-shadow: 0 8px 20px rgba(212,175,55,0.15); }
+    .stat-number { font-size: 2rem; font-weight: 700; color: var(--or); display: inline-block; }
 
-    /* ===== PROCESSUS RH ===== */
+    /* ===== AVIS ===== */
+    .avis-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem; margin: 2.5rem 0;
+    }
+    .avis-card {
+      background: white; border-radius: 30px; padding: 2rem;
+      box-shadow: var(--shadow-sm); transition: var(--transition);
+    }
+    .avis-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .avatar { display: flex; align-items: center; gap: 1rem; margin: 1.2rem 0 0.8rem; }
+    .avatar img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+    .stars { color: var(--or); font-weight: 600; }
+
+    /* ===== PROCESSUS ===== */
     .process-steps {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-      margin: 3rem 0 2rem;
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 2rem; margin: 3rem 0 2rem;
     }
-
     .step {
-      background: white;
-      border-radius: 100px 30px 30px 100px;
-      display: flex;
-      align-items: center;
+      background: white; border-radius: 100px 30px 30px 100px;
+      display: flex; align-items: center;
       padding: 0.8rem 2rem 0.8rem 0.8rem;
       box-shadow: 0 4px 12px rgba(0,0,0,0.02);
       border: 1px solid #eef5ff;
     }
-
     .step-number {
-      background: var(--or);
-      color: var(--bleu-principal);
-      font-weight: 700;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 1.2rem;
-      font-size: 1.3rem;
+      background: var(--or); color: var(--bleu-principal);
+      font-weight: 700; width: 50px; height: 50px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-right: 1.2rem; font-size: 1.3rem;
     }
 
-    /* ===== FOOTER (horizontal) ===== */
+    /* ===== FOOTER ===== */
     footer {
-      background: var(--bleu-principal);
-      color: white;
-      padding: 3rem 0 1.5rem;
-      border-top: 4px solid var(--or);
+      background: var(--bleu-principal); color: white;
+      padding: 3rem 0 1.5rem; border-top: 4px solid var(--or);
     }
-
     .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 2.5rem;
-      margin-bottom: 2rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2.5rem; margin-bottom: 2rem;
     }
-
-    .footer-logo i {
-      font-size: 2rem;
-      color: var(--or);
-      margin-right: 0.5rem;
-    }
-
+    .footer-logo i { font-size: 2rem; color: var(--or); margin-right: 0.5rem; }
     .footer-links a {
-      color: #cdddee;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 0.5rem;
-      transition: 0.2s;
+      color: #cdddee; text-decoration: none;
+      display: block; margin-bottom: 0.5rem; transition: 0.2s;
     }
-
-    .footer-links a:hover {
-      color: var(--or);
-    }
-
-    .social i {
-      font-size: 1.5rem;
-      margin-right: 1rem;
-      color: white;
-      transition: 0.2s;
-    }
-
-    .social i:hover {
-      color: var(--or);
-    }
-
+    .footer-links a:hover { color: var(--or); }
+    .social i { font-size: 1.5rem; margin-right: 1rem; color: white; transition: 0.2s; }
+    .social i:hover { color: var(--or); }
     .copyright {
-      text-align: center;
-      border-top: 1px solid #25537b;
-      padding-top: 2rem;
-      font-size: 0.9rem;
-      color: #a5c0da;
+      text-align: center; border-top: 1px solid #25537b;
+      padding-top: 2rem; font-size: 0.9rem; color: #a5c0da;
     }
 
     /* ===== ANIMATIONS ===== */
-    .fade-scroll {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .fade-scroll.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .fade-scroll { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .fade-scroll.visible { opacity: 1; transform: translateY(0); }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 850px) {
@@ -534,7 +260,6 @@
       .hero-grid { grid-template-columns: 1fr; }
       .hero h1 { font-size: 2.5rem; }
     }
-    
     @media (max-width: 600px) {
       .nav-menu { flex-wrap: wrap; justify-content: center; }
       .btn-login { margin-top: 0.5rem; }
@@ -543,7 +268,8 @@
   </style>
 </head>
 <body>
-  <!-- 1️⃣ NAVBAR FIXE -->
+
+  <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="container">
       <div class="logo">
@@ -560,7 +286,7 @@
   </nav>
 
   <main>
-    <!-- 2️⃣ HERO SECTION -->
+    <!-- HERO -->
     <section id="accueil" class="hero">
       <div class="container hero-grid">
         <div class="fade-scroll">
@@ -574,7 +300,7 @@
       </div>
     </section>
 
-    <!-- 3️⃣ PRÉSENTATION -->
+    <!-- PRÉSENTATION -->
     <section id="apropos" class="fade-scroll">
       <div class="container">
         <h2 class="section-title">Qui sommes-nous ?</h2>
@@ -598,37 +324,180 @@
       </div>
     </section>
 
-    <!-- 4️⃣ NOS FORMATIONS (grille dynamique avec données Django) -->
+    <!-- ===== NOS FORMATIONS AVEC FORMATEUR ===== -->
     <section id="formations" style="background: var(--gris-light);" class="fade-scroll">
       <div class="container">
         <h2 class="section-title">Nos formations certifiées</h2>
-        <div class="formation-grid">
-          {% for f in formations %}
-          <div class="card" onclick="window.location='formations.html';">
-            <h2>{{ f.nom }}</h2>
-            <p>{{ f.description }}</p>
+        <div class="formation-grid" id="formation-grid">
+
+          <!--
+            ============================================================
+            ZONE DJANGO TEMPLATE — remplace ces cartes statiques par :
+
+            {% for f in formations %}
+            <div class="card" onclick="window.location='formations.html';">
+              <h2>{{ f.nom }}</h2>
+              <p>{{ f.description }}</p>
+              <div>
+                <span class="badge"><strong>{{ f.niveau }}</strong></span>
+                <span class="badge">{{ f.duree }}</span>
+              </div>
+              <div class="certif-stamp">
+                <i class="fas fa-check-circle"></i> {{ f.certification }}
+              </div>
+              {% if f.formateur %}
+              <div class="trainer-row">
+                <img
+                  class="trainer-avatar"
+                  src="{{ f.formateur.photo.url }}"
+                  alt="Photo de {{ f.formateur.nom }}"
+                  loading="lazy"
+                >
+                <div class="trainer-info">
+                  <span class="trainer-label">Formateur</span>
+                  <span class="trainer-name">{{ f.formateur.nom }}</span>
+                  <span class="trainer-title">{{ f.formateur.specialite }}</span>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+            {% empty %}
+            <div class="card"><p>Aucune formation disponible.</p></div>
+            {% endfor %}
+
+            ============================================================
+            CARTES STATIQUES DE DÉMONSTRATION (à supprimer en prod)
+          -->
+
+          <div class="card" onclick="">
+            <h2>Management & Leadership</h2>
+            <p>Développez vos compétences en gestion d'équipe, prise de décision stratégique et leadership situationnel.</p>
             <div>
-              <span class="badge"><strong>{{ f.niveau }}</strong></span>
-              <span class="badge">{{ f.duree }}</span>
+              <span class="badge"><strong>Intermédiaire</strong></span>
+              <span class="badge">3 jours</span>
             </div>
             <div class="certif-stamp">
-              <i class="fas fa-check-circle"></i> {{ f.certification }}
+              <i class="fas fa-check-circle"></i> Certification Qualiopi reconnue
+            </div>
+            <div class="trainer-row">
+              <img class="trainer-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Thomas Bernard" loading="lazy">
+              <div class="trainer-info">
+                <span class="trainer-label">Formateur</span>
+                <span class="trainer-name">Thomas Bernard</span>
+                <span class="trainer-title">Expert en leadership</span>
+              </div>
             </div>
           </div>
-          {% empty %}
-          <div class="card">
-            <p>Aucune formation disponible.</p>
+
+          <div class="card" onclick="">
+            <h2>Excel & Data Analyse</h2>
+            <p>Maîtrisez les outils de traitement de données, tableaux croisés dynamiques et Power Query pour des décisions éclairées.</p>
+            <div>
+              <span class="badge"><strong>Débutant</strong></span>
+              <span class="badge">2 jours</span>
+            </div>
+            <div class="certif-stamp">
+              <i class="fas fa-check-circle"></i> Certification Microsoft Office Specialist
+            </div>
+            <div class="trainer-row">
+              <img class="trainer-avatar" src="https://randomuser.me/api/portraits/women/55.jpg" alt="Amina Khalil" loading="lazy">
+              <div class="trainer-info">
+                <span class="trainer-label">Formatrice</span>
+                <span class="trainer-name">Amina Khalil</span>
+                <span class="trainer-title">Experte Data & Bureautique</span>
+              </div>
+            </div>
           </div>
-          {% endfor %}
+
+          <div class="card" onclick="">
+            <h2>Communication Professionnelle</h2>
+            <p>Techniques de négociation, prise de parole en public, gestion des conflits et communication non-violente.</p>
+            <div>
+              <span class="badge"><strong>Avancé</strong></span>
+              <span class="badge">4 jours</span>
+            </div>
+            <div class="certif-stamp">
+              <i class="fas fa-check-circle"></i> Certification CPF éligible
+            </div>
+            <div class="trainer-row">
+              <img class="trainer-avatar" src="https://randomuser.me/api/portraits/men/78.jpg" alt="Karim Oussama" loading="lazy">
+              <div class="trainer-info">
+                <span class="trainer-label">Formateur</span>
+                <span class="trainer-name">Karim Oussama</span>
+                <span class="trainer-title">Coach & Formateur certifié</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" onclick="">
+            <h2>Gestion de Projet Agile</h2>
+            <p>Scrum, Kanban, sprints et rituels agiles pour piloter vos projets avec efficacité et flexibilité.</p>
+            <div>
+              <span class="badge"><strong>Intermédiaire</strong></span>
+              <span class="badge">3 jours</span>
+            </div>
+            <div class="certif-stamp">
+              <i class="fas fa-check-circle"></i> Certification PMI-ACP
+            </div>
+            <div class="trainer-row">
+              <img class="trainer-avatar" src="https://randomuser.me/api/portraits/women/29.jpg" alt="Sophie Martin" loading="lazy">
+              <div class="trainer-info">
+                <span class="trainer-label">Formatrice</span>
+                <span class="trainer-name">Sophie Martin</span>
+                <span class="trainer-title">Scrum Master & Agile Coach</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" onclick="">
+            <h2>Cybersécurité en Entreprise</h2>
+            <p>Sensibilisation aux risques cyber, bonnes pratiques, gestion des incidents et protection des données.</p>
+            <div>
+              <span class="badge"><strong>Tous niveaux</strong></span>
+              <span class="badge">2 jours</span>
+            </div>
+            <div class="certif-stamp">
+              <i class="fas fa-check-circle"></i> Certification ANSSI référencée
+            </div>
+            <div class="trainer-row">
+              <img class="trainer-avatar" src="https://randomuser.me/api/portraits/men/45.jpg" alt="Youssef El Fassi" loading="lazy">
+              <div class="trainer-info">
+                <span class="trainer-label">Formateur</span>
+                <span class="trainer-name">Youssef El Fassi</span>
+                <span class="trainer-title">Expert Cybersécurité CISSP</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" onclick="">
+            <h2>RH & Droit du Travail</h2>
+            <p>Actualités juridiques, contrats de travail, licenciement, RGPD RH et gestion disciplinaire.</p>
+            <div>
+              <span class="badge"><strong>Avancé</strong></span>
+              <span class="badge">2 jours</span>
+            </div>
+            <div class="certif-stamp">
+              <i class="fas fa-check-circle"></i> Certification Qualiopi reconnue
+            </div>
+            <div class="trainer-row">
+              <img class="trainer-avatar" src="https://randomuser.me/api/portraits/women/62.jpg" alt="Nadia Fontaine" loading="lazy">
+              <div class="trainer-info">
+                <span class="trainer-label">Formatrice</span>
+                <span class="trainer-name">Nadia Fontaine</span>
+                <span class="trainer-title">Juriste droit social</span>
+              </div>
+            </div>
+          </div>
+
         </div>
         <p style="text-align:center; margin-top:2rem">
-          <i class="fas fa-check-circle" style="color:var(--or);"></i> 
+          <i class="fas fa-check-circle" style="color:var(--or);"></i>
           <strong>✔ Formations certifiées & certificats reconnus professionnellement</strong>
         </p>
       </div>
     </section>
 
-    <!-- 5️⃣ CARTE INTERACTIVE + STATS -->
+    <!-- CARTE + STATS -->
     <section class="fade-scroll">
       <div class="container map-stats">
         <div id="map"></div>
@@ -640,7 +509,7 @@
       </div>
     </section>
 
-    <!-- 6️⃣ AVIS CLIENTS (grille horizontale) -->
+    <!-- AVIS -->
     <section style="background: #f9fcff;" class="fade-scroll">
       <div class="container">
         <h2 class="section-title">Ils nous font confiance</h2>
@@ -674,7 +543,7 @@
       </div>
     </section>
 
-    <!-- 7️⃣ PROCESSUS RH -->
+    <!-- PROCESSUS RH -->
     <section class="fade-scroll">
       <div class="container">
         <h2 class="section-title">Processus simplifié pour les RH</h2>
@@ -683,19 +552,19 @@
           <div class="step"><span class="step-number">2</span> Choisir une formation</div>
           <div class="step"><span class="step-number">3</span> Demander un devis</div>
         </div>
-        <div class="devis-link" style="text-align:center; margin-top:2rem;">
+        <div style="text-align:center; margin-top:2rem;">
           <a href="devis.html" class="btn-cta" style="background:var(--bleu-principal); color:white;">📄 Demander un devis personnalisé</a>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- 8️⃣ FOOTER (grille horizontale) -->
+  <!-- FOOTER -->
   <footer>
     <div class="container">
       <div class="footer-grid">
         <div class="footer-logo">
-          <i class="fas fa-graduation-cap"></i> 
+          <i class="fas fa-graduation-cap"></i>
           <span style="font-size:1.8rem; font-weight:600;">UpSkill</span>
           <p style="margin-top:1rem; color:#cdddee;">Formation professionnelle certifiée pour entreprises</p>
         </div>
@@ -719,9 +588,7 @@
           <i class="fab fa-youtube"></i>
         </div>
       </div>
-      <div class="copyright">
-        © 2025 UpSkill. Tous droits réservés.
-      </div>
+      <div class="copyright">© 2025 UpSkill. Tous droits réservés.</div>
     </div>
   </footer>
 
@@ -733,11 +600,7 @@
       // Sticky navbar
       const navbar = document.getElementById('navbar');
       window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-          navbar.classList.add('scrolled');
-        } else {
-          navbar.classList.remove('scrolled');
-        }
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
       });
 
       // Active link
@@ -745,28 +608,22 @@
         accueil: document.getElementById('accueil'),
         formations: document.getElementById('formations')
       };
-      
       const navLinks = document.querySelectorAll('.nav-link[data-target]');
-      
+
       function setActiveLink() {
         const scrollPos = window.scrollY + 150;
         for (let [id, section] of Object.entries(sections)) {
           if (section) {
-            const offsetTop = section.offsetTop;
-            const offsetBottom = offsetTop + section.offsetHeight;
-            if (scrollPos >= offsetTop && scrollPos < offsetBottom) {
+            if (scrollPos >= section.offsetTop && scrollPos < section.offsetTop + section.offsetHeight) {
               navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('data-target') === id) {
-                  link.classList.add('active');
-                }
+                if (link.getAttribute('data-target') === id) link.classList.add('active');
               });
               break;
             }
           }
         }
       }
-      
       window.addEventListener('scroll', setActiveLink);
       setActiveLink();
 
@@ -774,29 +631,22 @@
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
           const href = this.getAttribute('href');
-          if (href === "#") return;
+          if (href === '#') return;
           const target = document.querySelector(href);
-          if (target) {
-            e.preventDefault();
-            target.scrollIntoView({ behavior: 'smooth' });
-          }
+          if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
         });
       });
 
       // Fade scroll
-      const fadeElements = document.querySelectorAll('.fade-scroll');
-      fadeElements.forEach(el => {
+      document.querySelectorAll('.fade-scroll').forEach(el => {
         new Waypoint({
           element: el,
-          handler: function() {
-            el.classList.add('visible');
-          },
+          handler: function() { el.classList.add('visible'); },
           offset: '80%'
         });
       });
 
-      // Compteurs
-      const statNumbers = document.querySelectorAll('.stat-number');
+      // Compteurs animés
       const countUp = (el) => {
         const target = parseInt(el.getAttribute('data-count'), 10);
         let current = 0;
@@ -812,13 +662,10 @@
         }, 20);
       };
 
-      statNumbers.forEach(el => {
+      document.querySelectorAll('.stat-number').forEach(el => {
         new Waypoint({
           element: el.closest('.stat-item'),
-          handler: function() {
-            countUp(el);
-            this.destroy();
-          },
+          handler: function() { countUp(el); this.destroy(); },
           offset: '90%'
         });
       });
@@ -830,16 +677,14 @@
       }).addTo(map);
 
       const countries = [
-        { name: 'France', coords: [46.6, 2.5], popup: 'Siège social · +300 entreprises' },
-        { name: 'Allemagne', coords: [51.1, 10.5], popup: '200+ entreprises partenaires' },
-        { name: 'USA', coords: [37.1, -95.7], popup: 'New York, SF · 120 entreprises' },
-        { name: 'Singapour', coords: [1.3, 103.8], popup: 'Hub Asie · 80 entreprises' },
-        { name: 'Brésil', coords: [-14.2, -51.9], popup: 'São Paulo · 60 entreprises' }
+        { name: 'France',     coords: [46.6, 2.5],    popup: 'Siège social · +300 entreprises' },
+        { name: 'Allemagne',  coords: [51.1, 10.5],   popup: '200+ entreprises partenaires' },
+        { name: 'USA',        coords: [37.1, -95.7],  popup: 'New York, SF · 120 entreprises' },
+        { name: 'Singapour',  coords: [1.3, 103.8],   popup: 'Hub Asie · 80 entreprises' },
+        { name: 'Brésil',     coords: [-14.2, -51.9], popup: 'São Paulo · 60 entreprises' }
       ];
-
       countries.forEach(c => {
-        const marker = L.marker(c.coords).addTo(map);
-        marker.bindPopup(`<b>${c.name}</b><br>${c.popup}`);
+        L.marker(c.coords).addTo(map).bindPopup(`<b>${c.name}</b><br>${c.popup}`);
       });
     });
   </script>
